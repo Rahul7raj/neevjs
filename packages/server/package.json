@@ -1,0 +1,30 @@
+{
+  "name": "@neevjs/server",
+  "version": "0.0.1",
+  "description": "NeevJS optional Node.js backend starter — REST API with auth, middleware, and JSON contract",
+  "keywords": ["neevjs", "node", "express", "api", "backend"],
+  "author": "Rahul Raj Kushwaha <rahulkraj.dev@gmail.com>",
+  "license": "MIT",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@neevjs/shared": "workspace:*",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^20.10.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.3"
+  }
+}
