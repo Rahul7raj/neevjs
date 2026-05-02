@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./favicon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>NeevJS Docs — Documentation</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: #04040A;
+      color: #d1d5db;
+      line-height: 1.7;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    a {
+      color: #00E5FF;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    code {
+      background: rgba(126, 56, 255, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.88em;
+      color: #e5e7eb;
+    }
+
+    pre {
+      background: #0A0A14;
+      border: 1px solid rgba(126, 56, 255, 0.2);
+      border-radius: 8px;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: #e5e7eb;
+      margin: 16px 0;
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #00E5FF, #7E38FF, #2D46FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      background: rgba(4, 4, 10, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(126, 56, 255, 0.2);
+      flex-shrink: 0;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo img {
+      height: 28px;
+      width: 28px;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      color: #a5b4fc;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #00E5FF;
+      text-decoration: none;
+    }
+
+    .layout {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 32px 0;
+      background: rgba(4, 4, 10, 0.4);
+    }
+
+    .sidebar-group {
+      margin-bottom: 24px;
+      padding: 0 24px;
+    }
+
+    .sidebar-group-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-link {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+      transition: all 0.2s;
+    }
+
+    .sidebar-link:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+      text-decoration: none;
+    }
+
+    .sidebar-link.active {
+      color: #00E5FF;
+      background: rgba(0, 229, 255, 0.1);
+      font-weight: 500;
+    }
+
+    .content {
+      flex: 1;
+      max-width: 800px;
+      padding: 56px 48px 96px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.5px;
+      margin: 48px 0 16px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin: 32px 0 12px;
+    }
+
+    p {
+      margin-bottom: 16px;
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    ul,
+    ol {
+      margin: 16px 0 16px 24px;
+      color: #9ca3af;
+      font-size: 16px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    strong {
+      color: #fff;
+    }
+
+    .callout {
+      border: 1px solid rgba(126, 56, 255, 0.3);
+      background: rgba(126, 56, 255, 0.05);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-size: 15px;
+      color: #a5b4fc;
+    }
+
+    .callout.warning {
+      border-color: #92400e;
+      background: #1c1001;
+      color: #fcd34d;
+    }
+
+    .callout.tip {
+      border-color: #065f46;
+      background: #022c22;
+      color: #6ee7b7;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+
+    th {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.02);
+      color: #a5b4fc;
+      font-weight: 600;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #d1d5db;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 32px;
+      text-align: center;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .content {
+        padding: 32px 20px 64px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="./index.html" class="nav-logo">
+      <img src="./logo.png" alt="NeevJS Logo" />
+      NeevJS
+    </a>
+    <div class="nav-links">
+      <a href="./index.html">Home</a>
+      <a href="https://github.com/rahulkraj/neevjs" target="_blank">GitHub</a>
+      <a href="https://npmjs.com/package/@neevjs/client" target="_blank">npm</a>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Getting Started</div>
+        <a href="#introduction" class="sidebar-link">Introduction</a>
+        <a href="#installation" class="sidebar-link">Installation</a>
+        <a href="#quickstart" class="sidebar-link">Quick Start</a>
+        <a href="#api-contract" class="sidebar-link">API Contract</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Core</div>
+        <a href="#createclient" class="sidebar-link">createClient</a>
+        <a href="#neevprovider" class="sidebar-link">NeevProvider</a>
+        <a href="#usemodel" class="sidebar-link">useModel</a>
+        <a href="#useauth" class="sidebar-link">useAuth</a>
+        <a href="#usestore" class="sidebar-link">useStore</a>
+        <a href="#usesyncstatus" class="sidebar-link">useSyncStatus</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Components</div>
+        <a href="#table" class="sidebar-link">Table</a>
+        <a href="#form" class="sidebar-link">Form</a>
+        <a href="#neevboundary" class="sidebar-link">NeevBoundary</a>
+        <a href="#protected" class="sidebar-link">Protected</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Plugins</div>
+        <a href="#authplugin" class="sidebar-link">AuthPlugin</a>
+        <a href="#loggerplugin" class="sidebar-link">LoggerPlugin</a>
+        <a href="#cacheplugin" class="sidebar-link">CachePlugin</a>
+        <a href="#offlineplugin" class="sidebar-link">OfflinePlugin</a>
+        <a href="#custom-plugin" class="sidebar-link">Custom Plugin</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Architecture</div>
+        <a href="#fda" class="sidebar-link">Feature-Driven (FDA)</a>
+        <a href="#react-compiler" class="sidebar-link">React 19 Compiler</a>
+      </div>
+      <div class="sidebar-group">
+        <div class="sidebar-group-label">Backend</div>
+        <a href="#server" class="sidebar-link">@neevjs/server</a>
+        <a href="#modes" class="sidebar-link">Usage Modes</a>
+      </div>
+
+    </aside>
+
+    <main class="content">
+
+      <h1 class="gradient-text">NeevJS Documentation</h1>
+      <p style="font-size:16px; color:#6b7280;">
+        Plugin-driven, offline-first React framework for real-world business applications.
+        <br /><strong style="color:#9ca3af;">Version 0.0.1</strong> &nbsp;·&nbsp; Built by Rahul Raj Kushwaha
+      </p>
+
+      <!-- Introduction -->
+      <h2 id="introduction">Introduction</h2>
+      <p>
+        NeevJS ("नींव" = Foundation) is a React framework designed specifically for business applications — CRMs, admin
+        dashboards, POS systems, booking platforms, and internal tools.
+      </p>
+      <p>
+        Instead of fetch, axios, and separate state management, NeevJS gives you a single abstraction:
+        <code>useModel()</code>. It works like Laravel Eloquent, but in React.
+      </p>
+      <div class="callout tip">
+        💡 <strong>NeevJS is NOT a Next.js replacement.</strong> It's a framework for CRUD-heavy business apps — not
+        landing pages, not blogs.
+      </div>
+
+      <!-- Installation -->
+      <h2 id="installation">Installation</h2>
+      <h3>Client (React)</h3>
+      <pre><code>npm install @neevjs/client react</code></pre>
+
+      <h3>Server (Optional Node backend)</h3>
+      <pre><code>npm install @neevjs/server</code></pre>
+
+      <!-- Quick Start -->
+      <h2 id="quickstart">Quick Start</h2>
+      <pre><code>// 1. Create a client
+import { createClient, NeevProvider, useModel, AuthPlugin } from '@neevjs/client'
+
+const client = createClient({ baseURL: 'https://api.yourapp.com/api' })
+client.use(AuthPlugin)
+
+// 2. Wrap your app
+function App() {
+  return (
+    &lt;NeevProvider client={client}&gt;
+      &lt;Dashboard /&gt;
+    &lt;/NeevProvider&gt;
+  )
+}
+
+// 3. Use data anywhere
+function Dashboard() {
+  const { data, loading, create, remove } = useModel('orders')
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;
+
+  return (
+    &lt;div&gt;
+      {data.map(order =&gt; (
+        &lt;div key={order.id}&gt;
+          {order.name}
+          &lt;button onClick={() =&gt; remove(order.id)}&gt;Delete&lt;/button&gt;
+        &lt;/div&gt;
+      ))}
+      &lt;button onClick={() =&gt; create({ name: 'New Order' })}&gt;Add&lt;/button&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+
+      <!-- API Contract -->
+      <h2 id="api-contract">API Contract</h2>
+      <p>Every backend that works with NeevJS must follow this response format:</p>
+      <pre><code>// Success response
+{
+  "data": [],        // array or object
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "perPage": 20,
+      "total": 100,
+      "lastPage": 5
+    }
+  },
+  "error": null
+}
+
+// Error response
+{
+  "data": null,
+  "meta": {},
+  "error": "Descriptive error message"
+}</code></pre>
+      <div class="callout">
+        This contract is non-negotiable. It's what lets NeevJS work with any backend — Node, Laravel, Django, or
+        anything else.
+      </div>
+
+      <!-- createClient -->
+      <h2 id="createclient">createClient</h2>
+      <p>The core engine. Creates a client instance that all hooks and components use.</p>
+      <pre><code>import { createClient } from '@neevjs/client'
+
+const client = createClient({
+  baseURL: 'http://localhost:3001/api'  // optional, defaults to ''
+})
+
+// Register plugins
+client.use(AuthPlugin)
+client.use(LoggerPlugin)
+client.use(CachePlugin)
+client.use(OfflinePlugin)</code></pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>baseURL</code></td>
+            <td>string</td>
+            <td><code>''</code></td>
+            <td>Base URL prepended to all API requests</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- NeevProvider -->
+      <h2 id="neevprovider">NeevProvider</h2>
+      <p>Provides the client to the entire React tree via context. Wrap your root <code>&lt;App /&gt;</code> with it.
+      </p>
+      <pre><code>import { NeevProvider } from '@neevjs/client'
+
+function App() {
+  return (
+    &lt;NeevProvider client={client}&gt;
+      {/* all components have access to client */}
+      &lt;Router /&gt;
+    &lt;/NeevProvider&gt;
+  )
+}</code></pre>
+
+      <!-- useModel -->
+      <h2 id="usemodel">useModel</h2>
+      <p>The core hook. Replaces fetch, axios, useState, and useEffect for data management.</p>
+      <pre><code>const {
+  data,     // T[]         — current records
+  loading,  // boolean     — fetching state
+  error,    // Error|null  — any error
+  create,   // (payload) =&gt; Promise&lt;void&gt;
+  update,   // (id, payload) =&gt; Promise&lt;void&gt;
+  remove,   // (id) =&gt; Promise&lt;void&gt;
+  refresh,  // () =&gt; Promise&lt;void&gt;  — manual re-fetch
+} = useModel&lt;YourType&gt;('model-name')
+
+// With React Suspense (eliminates loading checks)
+const { data } = useModel&lt;YourType&gt;('model-name', { suspense: true })</code></pre>
+
+      <h3>With TypeScript generics</h3>
+      <pre><code>interface Order {
+  id: number
+  customer: string
+  amount: number
+  status: 'pending' | 'completed'
+}
+
+const { data, create } = useModel&lt;Order&gt;('orders')
+
+// data is typed as Order[]
+// create expects Omit&lt;Order, 'id'&gt;</code></pre>
+
+      <h3>React Suspense Mode</h3>
+      <p>Pass <code>{ suspense: true }</code> to enable Suspense-based data fetching. Wrap the component in
+        <code>&lt;NeevBoundary /&gt;</code> to handle loading and error states declaratively — no
+        <code>if (loading)</code> needed.</p>
+      <pre><code>function UsersContent() {
+  // Component "suspends" until data is ready
+  const { data, remove } = useModel&lt;User&gt;('users', { suspense: true })
+
+  return (
+    &lt;ul&gt;
+      {data.map(user =&gt; (
+        &lt;li key={user.id}&gt;
+          {user.name}
+          &lt;button onClick={() =&gt; remove(user.id)}&gt;Delete&lt;/button&gt;
+        &lt;/li&gt;
+      ))}
+    &lt;/ul&gt;
+  )
+}
+
+// Wrap with NeevBoundary — handles loading + errors
+export function UsersPage() {
+  return (
+    &lt;NeevBoundary loadingFallback={&lt;p&gt;Loading...&lt;/p&gt;}&gt;
+      &lt;UsersContent /&gt;
+    &lt;/NeevBoundary&gt;
+  )
+}</code></pre>
+
+      <h3>Caching &amp; Deduplication</h3>
+      <p>Results are cached in memory by model name with a <strong>60-second stale time</strong>. If 3 components mount
+        simultaneously and all call <code>useModel('users')</code>, only <strong>one</strong> network request is made —
+        all components share the result.</p>
+      <div class="callout tip">💡 <strong>Pub/Sub Reactivity:</strong> When you call <code>create()</code>,
+        <code>update()</code>, or <code>remove()</code> in any component, every other component using the same model
+        re-renders automatically with fresh data.</div>
+
+      <h3>Offline Behaviour</h3>
+      <p>When <code>navigator.onLine</code> is <code>false</code> and cached data exists, <code>useModel</code> skips
+        the network request entirely and serves from cache. No errors, no failed requests in the console.</p>
+
+      <!-- useAuth -->
+      <h2 id="useauth">useAuth</h2>
+      <p>Access the auth system anywhere in your app.</p>
+      <pre><code>const { login, logout, user, isAuthenticated, register } = useAuth()
+
+// Login
+await login('email@example.com', 'password')
+
+// Get current user
+const currentUser = await user()  // returns AuthUser | null
+
+// Check auth state
+if (isAuthenticated()) { ... }
+
+// Logout
+logout()
+
+// Register
+await register('email@example.com', 'password', 'Full Name')</code></pre>
+
+      <!-- useStore -->
+      <h2 id="usestore">useStore &amp; SecureStore</h2>
+      <p>
+        <strong>Client-side global state management</strong> — NeevJS's built-in answer to Redux for most use cases.
+        Any component calling <code>useStore('same-key')</code> shares the same reactive state with zero configuration.
+        Built on React 18’s <code>useSyncExternalStore</code> for concurrent-mode safety.
+      </p>
+      <div class="callout tip">
+        💡 <strong>NeevJS has no restrictions.</strong> You can freely use Redux, Zustand, Jotai, or any other
+        state management library alongside NeevJS. <code>useStore</code> is a convenient zero-dependency option
+        for most business apps — use what fits your team best.
+      </div>
+
+      <h3>Basic Usage</h3>
+      <pre><code>import { useStore } from '@neevjs/client'
+
+// Works exactly like useState, but shared across ALL components
+const [count, setCount] = useStore('counter', 0)
+
+// Functional updates work too
+setCount(prev => prev + 1)</code></pre>
+
+      <h3>Shopping Cart Example</h3>
+      <pre><code>interface CartItem {
+  id: number
+  name: string
+  qty: number
+  price: number
+}
+
+// In any component — they all share the same cart state
+const [cart, setCart] = useStore&lt;CartItem[]&gt;('cart', [])
+
+// Add item
+setCart(prev => [...prev, { id: 1, name: 'Widget', qty: 1, price: 99 }])
+
+// Remove item
+setCart(prev => prev.filter(item => item.id !== 1))
+
+// Update quantity
+setCart(prev =>
+  prev.map(item => item.id === 1 ? { ...item, qty: item.qty + 1 } : item)
+)</code></pre>
+
+      <h3>With localStorage Persistence</h3>
+      <p>Pass <code>{ persist: true }</code> and the store value survives page reloads automatically. The key is saved
+        under <code>neev_store_&lt;key&gt;</code> in <code>localStorage</code>.</p>
+      <pre><code>// Theme preference — survives refresh
+const [theme, setTheme] = useStore('theme', 'dark', { persist: true })
+
+// Cart — survives refresh
+const [cart, setCart] = useStore&lt;CartItem[]&gt;('cart', [], { persist: true })</code></pre>
+
+      <h3>UI State Examples</h3>
+      <pre><code>// Sidebar open/close — shared between layout and toggle button
+const [sidebarOpen, setSidebarOpen] = useStore('sidebar', true)
+
+// Toast notification queue
+const [toasts, setToasts] = useStore&lt;string[]&gt;('toasts', [])
+const addToast = (msg: string) =&gt; setToasts(prev =&gt; [...prev, msg])
+
+// Multi-step wizard position
+const [step, setStep] = useStore('wizard-step', 1)</code></pre>
+
+      <h3>Imperative API (Outside React)</h3>
+      <p>Use <code>getStore</code> and <code>setStore</code> from service layers, plugins, or event handlers outside of
+        React components.</p>
+      <pre><code>import { getStore, setStore } from '@neevjs/client'
+
+// Read the current value anywhere
+const cart = getStore&lt;CartItem[]&gt;('cart')
+
+// Set a value — all subscribed components re-render
+setStore('toasts', ['Payment successful!'])</code></pre>
+
+      <h3>API Reference</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Export</th>
+            <th>Signature</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>useStore</code></td>
+            <td><code>(key, initial, options?) =&gt; [value, setter]</code></td>
+            <td>React hook. All components with same key share state.</td>
+          </tr>
+          <tr>
+            <td><code>getStore</code></td>
+            <td><code>(key) =&gt; T | undefined</code></td>
+            <td>Read a store value imperatively (outside React).</td>
+          </tr>
+          <tr>
+            <td><code>setStore</code></td>
+            <td><code>(key, value) =&gt; void</code></td>
+            <td>Set a store value imperatively. Notifies all subscribers.</td>
+          </tr>
+        </tbody>
+      </table>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>persist</code></td>
+            <td>boolean</td>
+            <td><code>false</code></td>
+            <td>Persist value to <code>localStorage</code>. Survives page reloads.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>useStore vs useModel — When to Use Which</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Recommended</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fetching users, orders, products from your API</td>
+            <td><code>useModel</code></td>
+          </tr>
+          <tr>
+            <td>Shopping cart, wishlist</td>
+            <td><code>useStore</code> (in-memory or persist)</td>
+          </tr>
+          <tr>
+            <td>Theme, language preference</td>
+            <td><code>useStore({ persist: true })</code></td>
+          </tr>
+          <tr>
+            <td>Toast / notification queue</td>
+            <td><code>useStore</code> (in-memory)</td>
+          </tr>
+          <tr>
+            <td>Sidebar open, modal visibility</td>
+            <td><code>useStore</code> or local <code>useState</code></td>
+          </tr>
+          <tr>
+            <td>Multi-step form draft</td>
+            <td><code>useStore({ session: true })</code></td>
+          </tr>
+          <tr>
+            <td>OTP state, masked payment info during session</td>
+            <td><code>SecureStore</code></td>
+          </tr>
+          <tr>
+            <td>Tokens, auth data</td>
+            <td><code>useAuth()</code> (handled by NeevJS internally)</td>
+          </tr>
+          <tr>
+            <td>Server filters / pagination</td>
+            <td><code>useModel</code> + URL params</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>The Three Storage Tiers</h3>
+      <p>Choose based on the sensitivity and lifetime of your data:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Tier</th>
+            <th>API</th>
+            <th>Survives Refresh?</th>
+            <th>XSS Safe?</th>
+            <th>Disk Safe?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>In-Memory (default)</td>
+            <td><code>useStore('k', v)</code></td>
+            <td>❌</td>
+            <td>✅</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Session</td>
+            <td><code>useStore('k', v, { session: true })</code></td>
+            <td>✅ (tab only)</td>
+            <td>❌</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Persist</td>
+            <td><code>useStore('k', v, { persist: true })</code></td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>Encrypted</td>
+            <td><code>await SecureStore.set('k', v)</code></td>
+            <td>❌ by design</td>
+            <td>✅</td>
+            <td>✅</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Session Storage Tier <code>{ session: true }</code></h3>
+      <p>Data survives page refresh but is cleared when the tab closes and is not shared across tabs. Safer than
+        localStorage for semi-sensitive data.</p>
+      <pre><code>// Unsaved form draft
+const [draft, setDraft] = useStore('invoice_draft', {}, { session: true })
+
+// Current user object for the session
+const [currentUser, setCurrentUser] = useStore('session_user', null, { session: true })</code></pre>
+
+      <h3>Persist Tier <code>{ persist: true, ttl? }</code></h3>
+      <div class="callout warning">⚠️ localStorage is readable by any JS on the page. Do NOT store passwords, tokens,
+        payment info, or PII here.</div>
+      <pre><code>const [theme, setTheme] = useStore('theme', 'dark', { persist: true })
+
+// Cart with 7-day expiry
+const [cart, setCart] = useStore&lt;CartItem[]&gt;('cart', [], {
+  persist: true,
+  ttl: 7 * 24 * 60 * 60 * 1000,
+})</code></pre>
+
+      <h3>SecureStore — AES-256-GCM Encrypted</h3>
+      <p>
+        For sensitive in-session data. Uses the Web Crypto API with a <code>non-extractable</code> session key —
+        the raw key bytes can never be exported even by JavaScript. The ciphertext in localStorage is unreadable
+        after a page refresh (key is gone), which is intentional.
+      </p>
+      <pre><code>import { SecureStore } from '@neevjs/client'
+
+await SecureStore.set('pending_payment', { amount: 4999, currency: 'INR' })
+const payment = await SecureStore.get&lt;Payment&gt;('pending_payment') // null after refresh
+SecureStore.remove('pending_payment')
+SecureStore.clear() // call on logout</code></pre>
+
+      <h3>Logout Cleanup</h3>
+      <pre><code>import { SecureStore, clearPersistedStore } from '@neevjs/client'
+
+function handleLogout() {
+  auth.logout()
+  SecureStore.clear()           // Wipe all encrypted session data
+  clearPersistedStore('cart')   // Wipe persisted cart
+}</code></pre>
+
+      <h3>Full API Reference</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Export</th>
+            <th>Signature</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>useStore</code></td>
+            <td><code>(key, init, opts?) → [T, setter]</code></td>
+            <td>React hook. Shared across all components with same key.</td>
+          </tr>
+          <tr>
+            <td><code>getStore</code></td>
+            <td><code>(key) → T | undefined</code></td>
+            <td>Read imperatively outside React.</td>
+          </tr>
+          <tr>
+            <td><code>setStore</code></td>
+            <td><code>(key, value) → void</code></td>
+            <td>Set imperatively. Notifies all subscribers.</td>
+          </tr>
+          <tr>
+            <td><code>clearPersistedStore</code></td>
+            <td><code>(key) → void</code></td>
+            <td>Remove from localStorage and sessionStorage.</td>
+          </tr>
+          <tr>
+            <td><code>SecureStore.set</code></td>
+            <td><code>(key, value) → Promise&lt;void&gt;</code></td>
+            <td>Encrypt and store.</td>
+          </tr>
+          <tr>
+            <td><code>SecureStore.get</code></td>
+            <td><code>(key) → Promise&lt;T | null&gt;</code></td>
+            <td>Decrypt. Returns null if key is gone or tampered.</td>
+          </tr>
+          <tr>
+            <td><code>SecureStore.remove</code></td>
+            <td><code>(key) → void</code></td>
+            <td>Remove one encrypted entry.</td>
+          </tr>
+          <tr>
+            <td><code>SecureStore.clear</code></td>
+            <td><code>() → void</code></td>
+            <td>Wipe all encrypted entries. Use on logout.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>useStore vs Redux vs Zustand</h3>
+      <div class="callout">
+        NeevJS has <strong>no restrictions</strong>. Redux, Zustand, Jotai, and Recoil all work alongside NeevJS without
+        any conflicts.
+        <code>useStore</code> is zero-dependency and covers most business app needs out of the box.
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>useStore (NeevJS)</th>
+            <th>Redux Toolkit</th>
+            <th>Zustand</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Zero dependencies</td>
+            <td>✅</td>
+            <td>❌ (redux, immer, reselect)</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Setup boilerplate</td>
+            <td>None</td>
+            <td>store + slice + Provider</td>
+            <td><code>create()</code> call</td>
+          </tr>
+          <tr>
+            <td>API style</td>
+            <td>Identical to <code>useState</code></td>
+            <td>actions + dispatch</td>
+            <td>Custom (get/set)</td>
+          </tr>
+          <tr>
+            <td>sessionStorage tier built-in</td>
+            <td>✅</td>
+            <td>❌</td>
+            <td>❌ (needs middleware)</td>
+          </tr>
+          <tr>
+            <td>localStorage + TTL built-in</td>
+            <td>✅</td>
+            <td>❌ (needs redux-persist)</td>
+            <td>❌ (needs middleware)</td>
+          </tr>
+          <tr>
+            <td>AES-256-GCM encrypted storage</td>
+            <td>✅ SecureStore</td>
+            <td>❌</td>
+            <td>❌</td>
+          </tr>
+          <tr>
+            <td>Concurrent Mode safe</td>
+            <td>✅ useSyncExternalStore</td>
+            <td>✅</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Fine-grained selectors</td>
+            <td>Planned v0.2</td>
+            <td>✅ useSelector</td>
+            <td>✅ built-in</td>
+          </tr>
+          <tr>
+            <td>Time-travel DevTools</td>
+            <td>Planned v0.2</td>
+            <td>✅ Redux DevTools</td>
+            <td>✅</td>
+          </tr>
+          <tr>
+            <td>Best for</td>
+            <td>Business apps, no config</td>
+            <td>Large teams, complex flows</td>
+            <td>Medium apps</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>When to choose Redux or Zustand instead</h3>
+      <p>Prefer an external library when you need:</p>
+      <ul>
+        <li><strong>Fine-grained selectors</strong> — Redux’s <code>useSelector</code> and Zustand’s selectors prevent
+          re-renders when unrelated state changes. Critical for very large stores.</li>
+        <li><strong>Time-travel debugging</strong> — Redux DevTools lets you replay state changes step-by-step.</li>
+        <li><strong>Complex derived/computed state</strong> — Reselect or Zustand’s computed values handle memoized
+          derivations elegantly.</li>
+        <li><strong>Team familiarity</strong> — If your team already knows Redux well, keep using it.</li>
+      </ul>
+
+      <h3>Using Redux or Zustand alongside NeevJS</h3>
+      <pre><code>// ✅ Redux + NeevJS — no conflict
+import { useSelector } from 'react-redux'
+import { useModel } from '@neevjs/client'
+
+function OrdersPage() {
+  const { data: orders } = useModel('orders')          // server data
+  const filters = useSelector(state =&gt; state.ui.filters) // UI state
+  return &lt;Table data={orders.filter(o =&gt; o.status === filters.status)} /&gt;
+}
+
+// ✅ Zustand + NeevJS — no conflict
+import { create } from 'zustand'
+
+const useFilterStore = create(set =&gt; ({
+  status: 'all',
+  setStatus: (status) =&gt; set({ status }),
+}))
+
+function OrdersPage() {
+  const { data: orders } = useModel('orders')
+  const { status, setStatus } = useFilterStore()
+  // ...
+}</code></pre>
+
+      <!-- useSyncStatus -->
+      <h2 id="usesyncstatus">useSyncStatus</h2>
+      <p>Monitor offline/online status and pending sync queue. Used with <code>OfflinePlugin</code>.</p>
+      <pre><code>const { isOffline, pending, syncing, errors, clearErrors } = useSyncStatus()
+
+function SyncIndicator() {
+  const { isOffline, pending, syncing, errors, clearErrors } = useSyncStatus()
+
+  if (errors.length > 0) return (
+    &lt;div style={{ color: 'red' }}&gt;
+      ⚠️ {errors.length} action(s) failed permanently.
+      &lt;button onClick={clearErrors}&gt;Dismiss&lt;/button&gt;
+    &lt;/div&gt;
+  )
+  if (syncing)   return &lt;span&gt;↻ Syncing...&lt;/span&gt;
+  if (isOffline) return &lt;span&gt;● Offline — {pending} queued&lt;/span&gt;
+  return &lt;span&gt;● Online&lt;/span&gt;
+}</code></pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Value</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>isOffline</code></td>
+            <td>boolean</td>
+            <td><code>true</code> when <code>navigator.onLine</code> is false</td>
+          </tr>
+          <tr>
+            <td><code>pending</code></td>
+            <td>number</td>
+            <td>Number of actions in the offline queue</td>
+          </tr>
+          <tr>
+            <td><code>syncing</code></td>
+            <td>boolean</td>
+            <td><code>true</code> for ~2s after connection is restored</td>
+          </tr>
+          <tr>
+            <td><code>errors</code></td>
+            <td>Error[]</td>
+            <td>Permanently failed actions (e.g. server returned 4xx)</td>
+          </tr>
+          <tr>
+            <td><code>clearErrors</code></td>
+            <td>() =&gt; void</td>
+            <td>Clears the error list</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Table -->
+      <h2 id="table">Table</h2>
+      <p>Auto-renders a table for any model. Columns are auto-detected from data or can be customized.</p>
+      <pre><code>// Auto columns — detected from first row
+&lt;Table model="users" /&gt;
+
+// Custom columns with render functions
+&lt;Table&lt;User&gt;
+  model="users"
+  columns={[
+    { key: 'name', label: 'Full Name' },
+    { key: 'email', label: 'Email' },
+    {
+      key: 'role',
+      label: 'Role',
+      render: (val) =&gt; &lt;Badge&gt;{val}&lt;/Badge&gt;
+    },
+  ]}
+  onEdit={(user) =&gt; setEditUser(user)}
+  onDelete={(user) =&gt; remove(user.id)}
+  emptyMessage="No records yet."
+/&gt;</code></pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>model</code></td>
+            <td>string</td>
+            <td>Model name (matches useModel key)</td>
+          </tr>
+          <tr>
+            <td><code>columns</code></td>
+            <td>TableColumn[]</td>
+            <td>Optional. Auto-detected from data if omitted.</td>
+          </tr>
+          <tr>
+            <td><code>onEdit</code></td>
+            <td>(row: T) =&gt; void</td>
+            <td>Edit button click handler</td>
+          </tr>
+          <tr>
+            <td><code>onDelete</code></td>
+            <td>(row: T) =&gt; void</td>
+            <td>Delete button click handler</td>
+          </tr>
+          <tr>
+            <td><code>emptyMessage</code></td>
+            <td>string</td>
+            <td>Message shown when there is no data</td>
+          </tr>
+          <tr>
+            <td><code>classNames</code></td>
+            <td>TableClassNames</td>
+            <td>Override CSS class names for any element</td>
+          </tr>
+          <tr>
+            <td><code>styles</code></td>
+            <td>TableStyles</td>
+            <td>Override inline styles for any element</td>
+          </tr>
+          <tr>
+            <td><code>unstyled</code></td>
+            <td>boolean</td>
+            <td>Strip all default styles for full custom control</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Form -->
+      <h2 id="form">Form</h2>
+      <p>Model-aware form component that handles create and update in one component.</p>
+      <pre><code>// Create new record
+&lt;Form&lt;User&gt;
+  model="users"
+  fields={[
+    { name: 'name', label: 'Full Name', required: true },
+    { name: 'email', type: 'email', required: true },
+    {
+      name: 'role',
+      type: 'select',
+      options: [
+        { label: 'Admin', value: 'admin' },
+        { label: 'User', value: 'user' },
+      ]
+    },
+  ]}
+  onSuccess={() =&gt; console.log('Created!')}
+  submitLabel="Create User"
+/&gt;
+
+// Update existing record — pass editId + initialValues
+&lt;Form&lt;User&gt;
+  model="users"
+  editId={selectedUser.id}
+  initialValues={selectedUser}
+  fields={fields}
+  onSuccess={() =&gt; setEditing(false)}
+  submitLabel="Update User"
+/&gt;</code></pre>
+
+      <h3>transformPayload — Modify data before sending</h3>
+      <pre><code>&lt;Form&lt;User&gt;
+  model="users"
+  transformPayload={(payload) =&gt; ({
+    ...payload,
+    name: payload.name?.trim().toUpperCase(),
+    createdAt: new Date().toISOString(),
+  })}
+  fields={fields}
+/&gt;</code></pre>
+
+      <h3>onSubmitOverride — Custom submission logic</h3>
+      <pre><code>&lt;Form&lt;User&gt;
+  model="users"
+  onSubmitOverride={async (payload) =&gt; {
+    await myCustomApiCall(payload)
+    await sendWelcomeEmail(payload.email)
+  }}
+  fields={fields}
+/&gt;</code></pre>
+
+      <h3>Field types</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>type</th>
+            <th>Renders</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>text</code> (default)</td>
+            <td>&lt;input type="text"&gt;</td>
+          </tr>
+          <tr>
+            <td><code>email</code></td>
+            <td>&lt;input type="email"&gt;</td>
+          </tr>
+          <tr>
+            <td><code>password</code></td>
+            <td>&lt;input type="password"&gt;</td>
+          </tr>
+          <tr>
+            <td><code>number</code></td>
+            <td>&lt;input type="number"&gt;</td>
+          </tr>
+          <tr>
+            <td><code>textarea</code></td>
+            <td>&lt;textarea&gt;</td>
+          </tr>
+          <tr>
+            <td><code>select</code></td>
+            <td>&lt;select&gt; with options</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>All Form Props</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>model</code></td>
+            <td>string</td>
+            <td>Model name for POST/PUT requests</td>
+          </tr>
+          <tr>
+            <td><code>fields</code></td>
+            <td>FormField[]</td>
+            <td>Schema-driven field definitions</td>
+          </tr>
+          <tr>
+            <td><code>editId</code></td>
+            <td>number | string</td>
+            <td>If set, sends PUT instead of POST</td>
+          </tr>
+          <tr>
+            <td><code>initialValues</code></td>
+            <td>Partial&lt;T&gt;</td>
+            <td>Pre-fills fields for edit mode</td>
+          </tr>
+          <tr>
+            <td><code>onSuccess</code></td>
+            <td>() =&gt; void</td>
+            <td>Called after successful submission</td>
+          </tr>
+          <tr>
+            <td><code>onError</code></td>
+            <td>(err: Error) =&gt; void</td>
+            <td>Called when submission fails</td>
+          </tr>
+          <tr>
+            <td><code>submitLabel</code></td>
+            <td>string</td>
+            <td>Text on the submit button</td>
+          </tr>
+          <tr>
+            <td><code>transformPayload</code></td>
+            <td>(payload) =&gt; payload</td>
+            <td>Modify data before sending to server</td>
+          </tr>
+          <tr>
+            <td><code>onSubmitOverride</code></td>
+            <td>(payload) =&gt; Promise&lt;void&gt;</td>
+            <td>Fully replace default submit logic</td>
+          </tr>
+          <tr>
+            <td><code>children</code></td>
+            <td>ReactNode</td>
+            <td>Add custom JSX fields inside the form</td>
+          </tr>
+          <tr>
+            <td><code>classNames</code></td>
+            <td>FormClassNames</td>
+            <td>Override CSS class names</td>
+          </tr>
+          <tr>
+            <td><code>styles</code></td>
+            <td>FormStyles</td>
+            <td>Override inline styles</td>
+          </tr>
+          <tr>
+            <td><code>unstyled</code></td>
+            <td>boolean</td>
+            <td>Strip all default styles</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- NeevBoundary -->
+      <h2 id="neevboundary">NeevBoundary</h2>
+      <p>Replaces all <code>if (loading)</code> and <code>if (error)</code> checks when using <code>useModel</code> with
+        <code>{ suspense: true }</code>. It combines React Suspense with an ErrorBoundary in one component.</p>
+      <pre><code>import { NeevBoundary } from '@neevjs/client'
+
+&lt;NeevBoundary
+  loadingFallback={&lt;SkeletonLoader /&gt;}
+  errorFallback={(error, reset) =&gt; (
+    &lt;div&gt;
+      &lt;p&gt;Something went wrong: {error.message}&lt;/p&gt;
+      &lt;button onClick={reset}&gt;Try Again&lt;/button&gt;
+    &lt;/div&gt;
+  )}
+&gt;
+  &lt;UsersContent /&gt;
+&lt;/NeevBoundary&gt;</code></pre>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Prop</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>loadingFallback</code></td>
+            <td>ReactNode</td>
+            <td>Shown while data is loading (Suspense fallback)</td>
+          </tr>
+          <tr>
+            <td><code>errorFallback</code></td>
+            <td>(error, reset) =&gt; ReactNode</td>
+            <td>Shown on error; call <code>reset()</code> to retry</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout tip">💡 When <code>errorFallback</code> is not provided, NeevBoundary renders a default "Data
+        Error" UI with a "Try again" button.</div>
+
+      <!-- Protected -->
+      <h2 id="protected">Protected</h2>
+      <p>Wraps content that requires authentication. Optionally checks user role.</p>
+      <pre><code>// Require login only
+&lt;Protected&gt;
+  &lt;Dashboard /&gt;
+&lt;/Protected&gt;
+
+// Require specific role
+&lt;Protected role="admin" fallback={&lt;p&gt;Admins only&lt;/p&gt;}&gt;
+  &lt;AdminPanel /&gt;
+&lt;/Protected&gt;</code></pre>
+
+      <!-- AuthPlugin -->
+      <h2 id="authplugin">AuthPlugin</h2>
+      <p>Automatically injects the JWT token as an <code>Authorization: Bearer ...</code> header in every request.</p>
+      <pre><code>import { AuthPlugin } from '@neevjs/client'
+
+client.use(AuthPlugin)
+
+// Now every request automatically includes the token.
+// No manual header management needed.</code></pre>
+
+      <!-- LoggerPlugin -->
+      <h2 id="loggerplugin">LoggerPlugin</h2>
+      <p>Logs all requests and responses to the browser console. Useful for development.</p>
+      <pre><code>import { LoggerPlugin } from '@neevjs/client'
+
+client.use(LoggerPlugin)
+
+// Console output:
+// [NeevJS] → GET /users
+// [NeevJS] ← 200 http://localhost:3001/api/users</code></pre>
+      <div class="callout warning">⚠️ Disable LoggerPlugin in production builds to avoid leaking API info.</div>
+
+      <!-- CachePlugin -->
+      <h2 id="cacheplugin">CachePlugin</h2>
+      <p>Caches GET responses in memory with a configurable TTL (time-to-live).</p>
+      <pre><code>import { CachePlugin, createCachePlugin } from '@neevjs/client'
+
+// Default (1 minute TTL)
+client.use(CachePlugin)
+
+// Custom TTL
+client.use(createCachePlugin({ ttl: 30_000 }))  // 30 seconds</code></pre>
+
+      <!-- OfflinePlugin -->
+      <h2 id="offlineplugin">OfflinePlugin</h2>
+      <p>Queues write operations (POST, PUT, DELETE) when the device is offline, then automatically retries when
+        connectivity is restored.</p>
+      <pre><code>import { OfflinePlugin } from '@neevjs/client'
+
+client.use(OfflinePlugin)
+
+// That's it. useModel().create/update/remove
+// will queue automatically when offline.
+
+// Show status to user
+const { isOffline, pending } = useSyncStatus()
+{isOffline &amp;&amp; &lt;p&gt;Offline — {pending} actions pending&lt;/p&gt;}</code></pre>
+      <div class="callout tip">💡 Best for POS systems, field sales apps, and warehouse tools that need to work without
+        internet.</div>
+
+      <!-- Custom Plugin -->
+      <h2 id="custom-plugin">Custom Plugin</h2>
+      <p>Plugins follow a simple interface. Any of the hooks are optional.</p>
+      <pre><code>import type { NeevPlugin } from '@neevjs/client'
+
+const TenantPlugin: NeevPlugin = {
+  name: 'tenant',
+
+  onRequest(req) {
+    return {
+      ...req,
+      options: {
+        ...req.options,
+        headers: {
+          ...req.options.headers,
+          'X-Tenant-ID': 'company-123',
+        },
+      },
+    }
+  },
+
+  onResponse(res) {
+    // transform or inspect response
+    return res
+  },
+
+  onError(err) {
+    // log to error tracking (Sentry, etc.)
+    console.error('API Error:', err)
+  },
+}
+
+client.use(TenantPlugin)</code></pre>
+
+      <!-- Feature-Driven Architecture -->
+      <h2 id="fda">Feature-Driven Architecture</h2>
+      <p>NeevJS recommends organizing projects by <strong>business feature</strong>, not by technical role. This
+        prevents "Massive Component Syndrome" — 1000-line files that are impossible to debug.</p>
+
+      <h3>Recommended Folder Structure</h3>
+      <pre><code>src/
+├── app/                        ← Global app shell
+│   ├── App.tsx                 ← Layout, routing, providers
+│   └── main.tsx                ← React DOM entry point
+│
+├── core/                       ← Framework configuration
+│   └── neev.ts                 ← createClient + plugin registry
+│
+├── models/                     ← Shared domain types
+│   ├── user.ts                 ← Used by multiple features
+│   └── order.ts
+│
+├── shared/                     ← Generic reusable UI
+│   └── components/
+│       └── SyncIndicator.tsx
+│
+└── features/                   ← One folder per domain
+    ├── users/
+    │   ├── components/
+    │   │   ├── UserTable.tsx   ← Atomic sub-components
+    │   │   └── UserForm.tsx
+    │   └── UsersPage.tsx       ← The thin orchestrator
+    ├── dashboard/
+    │   └── DashboardPage.tsx
+    └── auth/
+        └── LoginPage.tsx</code></pre>
+
+      <h3>The Orchestrator Pattern</h3>
+      <p>Keep each "Page" file as a <strong>thin orchestrator</strong>. It manages only UI state (toggling modals,
+        passing handlers). Actual UI lives in small, atomic sub-components.</p>
+      <pre><code>// features/users/UsersPage.tsx  ← only ~50 lines, clean and readable
+function UsersContent() {
+  const { remove } = useModel&lt;User&gt;('users', { suspense: true })
+  const [showForm, setShowForm] = useState(false)
+  const [editUser, setEditUser] = useState&lt;User | null&gt;(null)
+
+  return (
+    &lt;div&gt;
+      &lt;button onClick={() =&gt; setShowForm(true)}&gt;+ Add User&lt;/button&gt;
+      {showForm &amp;&amp; (
+        &lt;UserForm
+          editUser={editUser}
+          onSuccess={() =&gt; { setShowForm(false); setEditUser(null) }}
+        /&gt;
+      )}
+      &lt;UserTable
+        onEdit={(user) =&gt; { setEditUser(user); setShowForm(true) }}
+        onDelete={(user) =&gt; remove(user.id)}
+      /&gt;
+    &lt;/div&gt;
+  )
+}</code></pre>
+
+      <div class="callout tip">💡 <strong>Why models/ is separate:</strong> A <code>User</code> type is used by the
+        Users feature, Dashboard stats, and the Auth system. Keeping it in <code>src/models/</code> instead of inside
+        any one feature prevents duplication and circular imports.</div>
+
+      <!-- React 19 Compiler -->
+      <h2 id="react-compiler">React 19 Compiler</h2>
+      <p>NeevJS is built for <strong>React 19</strong> and ships with the <strong>React Compiler</strong> pre-configured
+        in the demo app. This means you <strong>never need to write</strong> <code>useMemo</code>,
+        <code>useCallback</code>, or <code>React.memo</code> again.</p>
+
+      <h3>What the Compiler Does Automatically</h3>
+      <pre><code>// ❌ Before (manual memoization)
+const handleDelete = useCallback((id) =&gt; {
+  remove(id)
+}, [remove])
+
+const expensiveList = useMemo(() =&gt; {
+  return data.filter(u =&gt; u.role === 'admin')
+}, [data])
+
+// ✅ After (with React Compiler — just write normal code)
+const handleDelete = (id) =&gt; remove(id)
+const expensiveList = data.filter(u =&gt; u.role === 'admin')</code></pre>
+
+      <h3>Enabling in Your Vite Project</h3>
+      <pre><code>// vite.config.ts
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [
+    react({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
+  ],
+})</code></pre>
+
+      <div class="callout warning">⚠️ React Compiler requires <strong>React 19 or above</strong>. Ensure your project
+        uses <code>"react": "^19.0.0"</code> in package.json.</div>
+
+      <!-- Server -->
+      <h2 id="server">@neevjs/server</h2>
+      <p>An optional Node.js + Express backend that follows the NeevJS API contract out of the box. It includes auth
+        routes, a generic CRUD controller, and an in-memory DB (swap for PostgreSQL in production).</p>
+      <pre><code># Install dependencies
+cd packages/server
+npm install
+
+# Start dev server
+npm run dev
+# → Running at http://localhost:3001
+
+# Available routes:
+GET    /api/health
+POST   /api/auth/login
+POST   /api/auth/register
+GET    /api/auth/me          (protected)
+POST   /api/auth/logout      (protected)
+GET    /api/users
+POST   /api/users
+GET    /api/users/:id
+PUT    /api/users/:id
+DELETE /api/users/:id</code></pre>
+
+      <h3>Add a new model</h3>
+      <p>In <code>server.ts</code>, add one line:</p>
+      <pre><code>// Unprotected
+app.use('/api/orders', createModelRouter('orders'))
+
+// Protected (requires auth token)
+app.use('/api/invoices', createModelRouter('invoices', true))</code></pre>
+
+      <h3>Seed data</h3>
+      <p>In <code>src/db/index.ts</code>:</p>
+      <pre><code>db.seed('orders', [
+  { id: 1, customer: 'Rahul', amount: 5000, status: 'pending' },
+])</code></pre>
+
+      <!-- Modes -->
+      <h2 id="modes">Usage Modes</h2>
+
+      <h3>Mode 1 — Fullstack (default)</h3>
+      <p>Use <code>@neevjs/server</code> as your backend. Zero config, works out of the box.</p>
+      <pre><code>const client = createClient({ baseURL: '/api' })</code></pre>
+
+      <h3>Mode 2 — API Mode</h3>
+      <p>Connect NeevJS client to your existing backend (Laravel, Django, Rails, etc.). As long as it follows the API
+        contract, it works.</p>
+      <pre><code>const client = createClient({
+  baseURL: 'https://api.yourcompany.com/api'
+})</code></pre>
+
+      <h3>Mode 3 — Hybrid Mode</h3>
+      <p>Mix internal and external backends per model.</p>
+      <pre><code>// Not yet in v0.0.1 — planned for v0.2.0
+// useModel('orders')               // internal
+// useModel('payments', { baseURL }) // external</code></pre>
+
+
+
+      <footer>
+        <p>Built with ❤️ by <strong>Rahul Raj Kushwaha</strong> (Rahul K Raj) &nbsp;·&nbsp; NeevJS v0.0.1</p>
+      </footer>
+
+</body>
+
+</html>
