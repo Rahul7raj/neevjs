@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { NeevProvider } from '@neevjs/client'
+import { NeevProvider, VERSION } from '@neevjs/client'
 import { client } from '../core/neev'
 import { UsersPage } from '../features/users/UsersPage'
 import { LoginPage } from '../features/auth/LoginPage'
@@ -30,7 +30,7 @@ export default function App(): React.ReactElement {
           }}
         >
           <span style={{ color: '#fff', fontWeight: 700, fontSize: 18, letterSpacing: -0.5 }}>
-            ⚡ NeevJS Demo
+            ⚡ NeevJS Demo <span style={{ fontSize: 12, opacity: 0.5, fontWeight: 400, marginLeft: 4 }}>v{VERSION}</span>
           </span>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
             <SyncIndicator />

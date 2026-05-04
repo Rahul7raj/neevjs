@@ -1,4 +1,5 @@
 // Core
+export { VERSION } from '@neevjs/shared'
 export { createClient } from './core/createClient'
 export { NeevProvider, NeevContext, useNeevClient } from './core/NeevProvider'
 export { AuthClient } from './core/AuthClient'

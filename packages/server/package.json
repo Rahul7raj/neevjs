@@ -1,8 +1,14 @@
 {
   "name": "@neevjs/server",
-  "version": "0.0.1",
+  "version": "0.1.0-beta",
   "description": "NeevJS optional Node.js backend starter — REST API with auth, middleware, and JSON contract",
-  "keywords": ["neevjs", "node", "express", "api", "backend"],
+  "keywords": [
+    "neevjs",
+    "node",
+    "express",
+    "api",
+    "backend"
+  ],
   "author": "Rahul Raj Kushwaha <rahulkraj.dev@gmail.com>",
   "license": "MIT",
   "main": "dist/server.js",

@@ -1,6 +1,6 @@
 {
   "name": "@neevjs/client",
-  "version": "0.0.1",
+  "version": "0.1.0-beta",
   "description": "NeevJS core React framework — plugin-driven, offline-first, built for business apps",
   "keywords": [
     "react",

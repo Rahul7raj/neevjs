@@ -364,8 +364,7 @@
       <h1 class="gradient-text">NeevJS Documentation</h1>
       <p style="font-size:16px; color:#6b7280;">
         Plugin-driven, offline-first React framework for real-world business applications.
-        <br /><strong style="color:#9ca3af;">Version 0.2.0 (Stable Beta)</strong> &nbsp;·&nbsp; Built by Rahul Raj
-        Kushwaha
+        <br /><strong style="color:#9ca3af;"><!-- NEEV_VERSION -->Version 0.1.0-beta<!-- /NEEV_VERSION --></strong> &nbsp;·&nbsp; Built by Rahul Raj Kushwaha
       </p>
 
       <!-- Introduction -->
@@ -1044,7 +1043,7 @@ import { useModel } from '@neevjs/client'
 function OrdersPage() {
   const { data: orders } = useModel('orders')          // server data
   const filters = useSelector(state =&gt; state.ui.filters) // UI state
-  return &lt;Table data={orders.filter(o =&gt; o.status === filters.status)} /&gt;
+  return &lt;Table model="orders" /&gt;
 }
 
 // ✅ Zustand + NeevJS — no conflict
@@ -1102,7 +1101,7 @@ function SyncIndicator() {
           <tr>
             <td><code>syncing</code></td>
             <td>boolean</td>
-            <td><code>true</code> for ~2s after connection is restored</td>
+            <td><code>true</code> while background sync is in progress</td>
           </tr>
           <tr>
             <td><code>errors</code></td>

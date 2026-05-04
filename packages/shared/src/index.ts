@@ -1,3 +1,6 @@
+// ─── Framework Metadata ───────────────────────────────────────────────────────
+export const VERSION = '0.1.0-beta'
+
 // ─── API Contract ────────────────────────────────────────────────────────────
 
 export interface ApiResponse<T = unknown> {

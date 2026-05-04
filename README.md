@@ -3,6 +3,8 @@
   <br /><br />
   <a href="https://github.com/Rahul7raj/neevjs"><strong>GitHub</strong></a> &nbsp;|&nbsp;
   <a href="https://Rahul7raj.github.io/neevjs"><strong>Documentation</strong></a>
+  <br />
+  <code style="font-size: 12px; color: #7E38FF;">v0.1.0-beta</code>
 </div>
 
 <br />
@@ -683,7 +685,7 @@ function SyncIndicator() {
 |---|---|---|
 | `isOffline` | `boolean` | `true` when `navigator.onLine` is `false` |
 | `pending` | `number` | Number of actions waiting in the queue |
-| `syncing` | `boolean` | `true` for ~2 seconds after connection is restored |
+| `syncing` | `boolean` | `true` while background sync is in progress |
 | `errors` | `Error[]` | Permanent failures (e.g., server returned 4xx) |
 | `clearErrors` | `() => void` | Clears the error list |
 
