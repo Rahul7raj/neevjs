@@ -26,10 +26,20 @@ function saveQueue(queue: QueuedAction[]): void {
 export function createOfflinePlugin(): NeevPlugin {
   let client: NeevClientInterface
 
+  // ─── Fix 5: Track the registered listener so we can remove it ─────────────
+  // Previously, every call to createOfflinePlugin() registered a new
+  // window.addEventListener('online', ...) that was never removed, causing
+  // the listener to accumulate on hot-reload or multiple instantiations.
+  let onlineHandler: (() => void) | null = null
+
   async function processQueue(): Promise<void> {
     if (!navigator.onLine) return
     const queue = loadQueue()
     if (queue.length === 0) return
+
+    // ─── Fix 4: Signal that syncing has started ────────────────────────────
+    syncState.syncing = true
+    syncState.notify()
 
     const remaining: QueuedAction[] = []
     let hasChanges = false
@@ -39,7 +49,6 @@ export function createOfflinePlugin(): NeevPlugin {
       try {
         await client.request(action.url, action.options)
         hasChanges = true
-        // Extract base model URL (e.g. "/users/123" -> "/users")
         const baseUrl = '/' + (action.url.split('/')[1] || '')
         urlsToMutate.add(baseUrl)
       } catch (err: any) {
@@ -50,27 +59,41 @@ export function createOfflinePlugin(): NeevPlugin {
           const baseUrl = '/' + (action.url.split('/')[1] || '')
           urlsToMutate.add(baseUrl)
         } else {
-          // 5xx or network error, retry next time
+          // 5xx or network error — retry next time
           remaining.push({ ...action, retries: action.retries + 1 })
         }
       }
     }
 
     saveQueue(remaining)
+
+    // ─── Fix 4: Signal that syncing is done ───────────────────────────────
+    // Only mark as done after the queue is fully processed — not on a
+    // hardcoded timeout. This is accurate regardless of queue size.
+    syncState.syncing = false
+    syncState.notify()
+
     if (hasChanges) {
       urlsToMutate.forEach(url => mutateModel(url))
     }
   }
-
-  window.addEventListener('online', () => {
-    void processQueue()
-  })
 
   return {
     name: 'offline',
 
     setup(c: NeevClientInterface): void {
       client = c
+
+      // ─── Fix 5: Register a single, replaceable listener ─────────────────
+      // Remove any previously registered listener before adding a new one.
+      // This prevents accumulation on hot-reload or multiple client.use() calls.
+      if (onlineHandler) {
+        window.removeEventListener('online', onlineHandler)
+      }
+      onlineHandler = () => { void processQueue() }
+      window.addEventListener('online', onlineHandler)
+
+      // Process any queued actions from previous sessions on startup
       if (navigator.onLine && loadQueue().length > 0) {
         setTimeout(() => void processQueue(), 500)
       }
@@ -81,7 +104,6 @@ export function createOfflinePlugin(): NeevPlugin {
       const isMutation = method !== 'GET'
 
       if (!navigator.onLine && isMutation) {
-        // Queue the action for later
         const queue = loadQueue()
         const action: QueuedAction = {
           id: generateId(),
@@ -93,7 +115,6 @@ export function createOfflinePlugin(): NeevPlugin {
         queue.push(action)
         saveQueue(queue)
 
-        // Throw a special offline error so useModel knows to handle it
         throw new Error('[NeevJS] Offline — action queued for sync when back online.')
       }
 

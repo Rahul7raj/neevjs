@@ -8,12 +8,12 @@ export const LoggerPlugin: NeevPlugin = {
     return req
   },
 
-  onResponse(res: Response): Response {
-    console.log(`[NeevJS] ← ${res.status} ${res.url}`)
+  onResponse(res: Response, req: NeevRequest): Response {
+    console.log(`[NeevJS] ← ${res.status} ${req.options.method ?? 'GET'} ${req.url}`)
     return res
   },
 
-  onError(err: Error): void {
-    console.error('[NeevJS] ✗ Error:', err.message)
+  onError(err: Error, req?: NeevRequest): void {
+    console.error(`[NeevJS] ✗ Error on ${req?.url ?? 'unknown'}:`, err.message)
   },
 }

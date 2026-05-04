@@ -9,6 +9,18 @@ export function LoginPage(): React.ReactElement {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null)
+  const [initialized, setInitialized] = React.useState(false)
+
+  React.useEffect(() => {
+    if (isAuthenticated()) {
+      user().then((u) => {
+        setCurrentUser(u)
+        setInitialized(true)
+      })
+    } else {
+      setInitialized(true)
+    }
+  }, [])
 
   async function handleLogin(): Promise<void> {
     setLoading(true)

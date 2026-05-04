@@ -4,11 +4,16 @@ import { client } from '../core/neev'
 import { UsersPage } from '../features/users/UsersPage'
 import { LoginPage } from '../features/auth/LoginPage'
 import { DashboardPage } from '../features/dashboard/DashboardPage'
+import { StoreTestPage } from '../features/store-test/StoreTestPage'
 import { NavBtn } from '../shared/components/NavBtn'
 import { SyncIndicator } from '../shared/components/SyncIndicator'
 
 export default function App(): React.ReactElement {
-  const [page, setPage] = useState<'users' | 'login' | 'dashboard'>('dashboard')
+  // Support ?page=store-test for Playwright test navigation without a nav link
+  const urlPage = new URLSearchParams(window.location.search).get('page')
+  const [page, setPage] = useState<'users' | 'login' | 'dashboard' | 'store-test'>(
+    urlPage === 'store-test' ? 'store-test' : 'dashboard'
+  )
 
   return (
     <NeevProvider client={client}>
@@ -48,6 +53,7 @@ export default function App(): React.ReactElement {
           {page === 'dashboard' && <DashboardPage />}
           {page === 'users' && <UsersPage />}
           {page === 'login' && <LoginPage />}
+          {page === 'store-test' && <StoreTestPage />}
         </main>
       </div>
     </NeevProvider>

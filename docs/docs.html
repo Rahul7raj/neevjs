@@ -308,7 +308,7 @@
     </a>
     <div class="nav-links">
       <a href="./index.html">Home</a>
-      <a href="https://github.com/rahulkraj/neevjs" target="_blank">GitHub</a>
+      <a href="https://github.com/rahul7raj/neevjs" target="_blank">GitHub</a>
       <a href="https://npmjs.com/package/@neevjs/client" target="_blank">npm</a>
     </div>
   </nav>
@@ -364,7 +364,8 @@
       <h1 class="gradient-text">NeevJS Documentation</h1>
       <p style="font-size:16px; color:#6b7280;">
         Plugin-driven, offline-first React framework for real-world business applications.
-        <br /><strong style="color:#9ca3af;">Version 0.0.1</strong> &nbsp;·&nbsp; Built by Rahul Raj Kushwaha
+        <br /><strong style="color:#9ca3af;">Version 0.2.0 (Stable Beta)</strong> &nbsp;·&nbsp; Built by Rahul Raj
+        Kushwaha
       </p>
 
       <!-- Introduction -->
@@ -514,7 +515,13 @@ function App() {
   update,   // (id, payload) =&gt; Promise&lt;void&gt;
   remove,   // (id) =&gt; Promise&lt;void&gt;
   refresh,  // () =&gt; Promise&lt;void&gt;  — manual re-fetch
+  mutate,   // (data) =&gt; void        — manual cache update
 } = useModel&lt;YourType&gt;('model-name')
+
+// With Query Parameters (isolated cache per param set)
+const { data } = useModel&lt;YourType&gt;('users', { 
+  params: { role: 'admin', page: 1 } 
+})
 
 // With React Suspense (eliminates loading checks)
 const { data } = useModel&lt;YourType&gt;('model-name', { suspense: true })</code></pre>
@@ -535,7 +542,8 @@ const { data, create } = useModel&lt;Order&gt;('orders')
       <h3>React Suspense Mode</h3>
       <p>Pass <code>{ suspense: true }</code> to enable Suspense-based data fetching. Wrap the component in
         <code>&lt;NeevBoundary /&gt;</code> to handle loading and error states declaratively — no
-        <code>if (loading)</code> needed.</p>
+        <code>if (loading)</code> needed.
+      </p>
       <pre><code>function UsersContent() {
   // Component "suspends" until data is ready
   const { data, remove } = useModel&lt;User&gt;('users', { suspense: true })
@@ -567,7 +575,8 @@ export function UsersPage() {
         all components share the result.</p>
       <div class="callout tip">💡 <strong>Pub/Sub Reactivity:</strong> When you call <code>create()</code>,
         <code>update()</code>, or <code>remove()</code> in any component, every other component using the same model
-        re-renders automatically with fresh data.</div>
+        re-renders automatically with fresh data.
+      </div>
 
       <h3>Offline Behaviour</h3>
       <p>When <code>navigator.onLine</code> is <code>false</code> and cached data exists, <code>useModel</code> skips
@@ -711,6 +720,30 @@ setStore('toasts', ['Payment successful!'])</code></pre>
             <td><code>false</code></td>
             <td>Persist value to <code>localStorage</code>. Survives page reloads.</td>
           </tr>
+          <tr>
+            <td><code>session</code></td>
+            <td>boolean</td>
+            <td><code>false</code></td>
+            <td>Persist to <code>sessionStorage</code>. Survives refresh but cleared on tab close.</td>
+          </tr>
+          <tr>
+            <td><code>ttl</code></td>
+            <td>number</td>
+            <td><code>undefined</code></td>
+            <td>Time-to-live in milliseconds. Only works with <code>persist: true</code>.</td>
+          </tr>
+          <tr>
+            <td><code>session</code></td>
+            <td>boolean</td>
+            <td><code>false</code></td>
+            <td>Persist to <code>sessionStorage</code>. Survives refresh but cleared on tab close.</td>
+          </tr>
+          <tr>
+            <td><code>ttl</code></td>
+            <td>number</td>
+            <td><code>undefined</code></td>
+            <td>Time-to-live in milliseconds. Only works with <code>persist: true</code>.</td>
+          </tr>
         </tbody>
       </table>
 
@@ -798,12 +831,24 @@ setStore('toasts', ['Payment successful!'])</code></pre>
           </tr>
           <tr>
             <td>Encrypted</td>
-            <td><code>await SecureStore.set('k', v)</code></td>
-            <td>❌ by design</td>
+            <td><code>SecureStore.set('k', v)</code></td>
+            <td>❌</td>
             <td>✅</td>
             <td>✅</td>
           </tr>
         </tbody>
+      </table>
+      <div class="callout warning">
+        ⚠️ <strong>Security Note:</strong> When using <code>persist: true</code> or <code>session: true</code>, your
+        data is stored in plain text in the browser storage. Avoid storing highly sensitive data like plain-text
+        passwords or secret keys in these tiers. Use <code>SecureStore</code> or in-memory state for sensitive info.
+      </div>
+      <td><code>await SecureStore.set('k', v)</code></td>
+      <td>❌ by design</td>
+      <td>✅</td>
+      <td>✅</td>
+      </tr>
+      </tbody>
       </table>
 
       <h3>Session Storage Tier <code>{ session: true }</code></h3>
@@ -1311,13 +1356,24 @@ function SyncIndicator() {
             <td>boolean</td>
             <td>Strip all default styles</td>
           </tr>
+          <tr>
+            <td><code>fieldErrors</code></td>
+            <td>Record&lt;string, string&gt;</td>
+            <td>External/server errors to display per-field</td>
+          </tr>
+          <tr>
+            <td><code>validate</code></td>
+            <td>(values) =&gt; Record&lt;string, string&gt;</td>
+            <td>Custom form-level validation logic</td>
+          </tr>
         </tbody>
       </table>
 
       <!-- NeevBoundary -->
       <h2 id="neevboundary">NeevBoundary</h2>
       <p>Replaces all <code>if (loading)</code> and <code>if (error)</code> checks when using <code>useModel</code> with
-        <code>{ suspense: true }</code>. It combines React Suspense with an ErrorBoundary in one component.</p>
+        <code>{ suspense: true }</code>. It combines React Suspense with an ErrorBoundary in one component.
+      </p>
       <pre><code>import { NeevBoundary } from '@neevjs/client'
 
 &lt;NeevBoundary
@@ -1393,7 +1449,7 @@ client.use(LoggerPlugin)
 
       <!-- CachePlugin -->
       <h2 id="cacheplugin">CachePlugin</h2>
-      <p>Caches GET responses in memory with a configurable TTL (time-to-live).</p>
+      <p>Caches GET requests at the network level. Automatically invalidates on mutations (POST, PUT, DELETE).</p>
       <pre><code>import { CachePlugin, createCachePlugin } from '@neevjs/client'
 
 // Default (1 minute TTL)
@@ -1401,6 +1457,11 @@ client.use(CachePlugin)
 
 // Custom TTL
 client.use(createCachePlugin({ ttl: 30_000 }))  // 30 seconds</code></pre>
+      <div class="callout tip">
+        💡 <strong>Intelligent Invalidation:</strong> CachePlugin automatically purges cached results for a resource
+        path
+        when any mutation occurs on that same path. No stale lists after creates or updates.
+      </div>
 
       <!-- OfflinePlugin -->
       <h2 id="offlineplugin">OfflinePlugin</h2>
@@ -1520,7 +1581,8 @@ function UsersContent() {
       <h2 id="react-compiler">React 19 Compiler</h2>
       <p>NeevJS is built for <strong>React 19</strong> and ships with the <strong>React Compiler</strong> pre-configured
         in the demo app. This means you <strong>never need to write</strong> <code>useMemo</code>,
-        <code>useCallback</code>, or <code>React.memo</code> again.</p>
+        <code>useCallback</code>, or <code>React.memo</code> again.
+      </p>
 
       <h3>What the Compiler Does Automatically</h3>
       <pre><code>// ❌ Before (manual memoization)
@@ -1615,7 +1677,7 @@ app.use('/api/invoices', createModelRouter('invoices', true))</code></pre>
 
 
       <footer>
-        <p>Built with ❤️ by <strong>Rahul Raj Kushwaha</strong> (Rahul K Raj) &nbsp;·&nbsp; NeevJS v0.0.1</p>
+        <p>Built with ❤️ in 🇮🇳 by <strong>Rahul Raj Kushwaha</strong> (Rahul K Raj) &nbsp;·&nbsp; NeevJS v0.0.1</p>
       </footer>
 
 </body>

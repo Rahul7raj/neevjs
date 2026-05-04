@@ -38,8 +38,8 @@ export interface NeevPlugin {
   name: string
   setup?: (client: NeevClientInterface) => void
   onRequest?: (req: NeevRequest) => NeevRequest | Promise<NeevRequest>
-  onResponse?: (res: Response) => Response | Promise<Response>
-  onError?: (err: Error) => void
+  onResponse?: (res: Response, req: NeevRequest) => Response | Promise<Response>
+  onError?: (err: Error, req?: NeevRequest) => void
 }
 
 // ─── Client ───────────────────────────────────────────────────────────────────

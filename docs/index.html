@@ -212,7 +212,7 @@
 
 <!-- Hero -->
 <section class="hero">
-  <div class="badge">v0.0.1 — Now on npm</div>
+  <div class="badge">v0.2.0 — Stable Beta</div>
   <h1>Build business apps,<br/><span class="gradient-text">not frontend chaos.</span></h1>
   <p class="subtitle">
     NeevJS is a plugin-driven, offline-first React framework for CRMs, dashboards, and POS systems. No fetch. No axios. Just <code>useModel()</code>.
@@ -226,10 +226,9 @@
     <div class="comment">// No fetch. No axios. No config.</div>
     <br/>
     <span class="keyword">const</span> users = <span class="fn">useModel</span>(<span class="str">'users'</span>)<br/><br/>
-    users.<span class="fn">create</span>({ name: <span class="str">'Rahul'</span>, role: <span class="str">'admin'</span> })<br/>
-    users.<span class="fn">update</span>(id, { name: <span class="str">'Rahul K Raj'</span> })<br/>
     users.<span class="fn">remove</span>(id)<br/><br/>
-    <span class="comment">// That's it. Data. Loading. Error. CRUD. Done.</span>
+    <span class="keyword">const</span> [theme] = <span class="fn">useStore</span>(<span class="str">'theme'</span>, <span class="str">'dark'</span>, { persist: <span class="keyword">true</span> })<br/><br/>
+    <span class="comment">// That's it. Data. State. CRUD. Done.</span>
   </div>
 </section>
 
@@ -283,8 +282,8 @@
       </div>
       <div class="feature-card">
         <div class="feature-icon">📦</div>
-        <h3>Zero Vendor Lock-in</h3>
-        <p>Works with any backend — Node, Laravel, Django, Rails. Deploy anywhere — VPS, Docker, shared hosting. No Vercel required.</p>
+        <h3>Global State Management</h3>
+        <p>Built-in <code>useStore</code> replaces Redux/Zustand for 90% of use cases. Persistence, Session support, and TTL (auto-expiry) included.</p>
       </div>
     </div>
   </div>

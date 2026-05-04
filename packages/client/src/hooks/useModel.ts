@@ -26,11 +26,29 @@ const STALE_TIME = 60 * 1000 // 60 seconds
 
 export interface UseModelOptions {
   suspense?: boolean
+  /**
+   * Query parameters appended to the request URL.
+   * The full URL (including params) is used as the cache key, so
+   * useModel('users', { params: { page: 1 } }) and
+   * useModel('users', { params: { page: 2 } }) cache independently.
+   *
+   * @example params: { page: 1, role: 'admin', search: 'rahul' }
+   */
+  params?: Record<string, string | number | boolean | undefined>
 }
 
 export function useModel<T extends ModelRecord>(name: string, options?: UseModelOptions): UseModelReturn<T> {
   const client = useNeevClient()
-  const url = `/${name}`
+
+  // Build URL with optional query string
+  const baseUrl = `/${name}`
+  const url = options?.params
+    ? `${baseUrl}?${new URLSearchParams(
+        Object.entries(options.params)
+          .filter(([, v]) => v !== undefined)
+          .map(([k, v]) => [k, String(v)])
+      ).toString()}`
+    : baseUrl
 
   const [data, setData] = useState<T[]>(() => (cache.get(url) as T[]) ?? [])
   const [loading, setLoading] = useState<boolean>(!cache.has(url))
