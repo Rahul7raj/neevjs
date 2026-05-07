@@ -1,6 +1,6 @@
 {
   "name": "@neevjs/cli",
-  "version": "0.1.0-beta",
+  "version": "1.0.0-beta",
   "description": "NeevJS CLI — project scaffolding and development tools",
   "main": "dist/index.js",
   "bin": {
