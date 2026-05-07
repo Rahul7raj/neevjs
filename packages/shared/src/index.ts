@@ -34,6 +34,7 @@ export interface RequestOptions {
   method?: string
   body?: string
   headers?: Record<string, string>
+  baseURL?: string
   [key: string]: unknown
 }
 

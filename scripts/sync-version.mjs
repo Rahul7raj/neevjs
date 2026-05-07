@@ -23,6 +23,7 @@ const packages = [
   'packages/client',
   'packages/server',
   'packages/shared',
+  'packages/cli',
   'apps/demo'
 ];
 
@@ -36,7 +37,16 @@ packages.forEach(pkgDir => {
   }
 });
 
-// 4. Update HTML docs
+// 4. Update CLI version command
+const cliVersionPath = path.join(rootDir, 'packages/cli/src/commands/version.ts');
+if (fs.existsSync(cliVersionPath)) {
+  let cliVersion = fs.readFileSync(cliVersionPath, 'utf8');
+  cliVersion = cliVersion.replace(/v\d+\.\d+\.\d+(-[a-z0-9.]+)?/, `v${version}`);
+  fs.writeFileSync(cliVersionPath, cliVersion);
+  console.log('✓ Updated packages/cli/src/commands/version.ts');
+}
+
+// 5. Update HTML docs
 const docs = ['docs/index.html', 'docs/docs.html'];
 docs.forEach(docPath => {
   const dpath = path.join(rootDir, docPath);

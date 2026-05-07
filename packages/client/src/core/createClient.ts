@@ -43,7 +43,8 @@ export function createClient(config: NeevClientConfig = {}): NeevClientInterface
       let response: Response
 
       try {
-        response = await fetch(baseURL + req.url, {
+        const finalBaseURL = req.options.baseURL ?? baseURL
+        response = await fetch(finalBaseURL + req.url, {
           method: req.options.method ?? 'GET',
           body: req.options.body,
           headers,

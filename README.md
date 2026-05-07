@@ -4,7 +4,7 @@
   <a href="https://github.com/Rahul7raj/neevjs"><strong>GitHub</strong></a> &nbsp;|&nbsp;
   <a href="https://Rahul7raj.github.io/neevjs"><strong>Documentation</strong></a>
   <br />
-  <code style="font-size: 12px; color: #7E38FF;">v0.1.0-beta</code>
+  <code style="font-size: 12px; color: #7E38FF;">v0.1.0-beta/code>
 </div>
 
 <br />
@@ -94,6 +94,22 @@ npm install @neevjs/client
 # or
 pnpm add @neevjs/client
 ```
+
+---
+
+## 🛠️ NeevJS CLI
+
+Scaffold a new project in seconds with the interactive CLI.
+
+```bash
+npx @neevjs/cli init my-app
+```
+
+### Project Modes
+NeevJS adapts to your architecture. Choose the mode that fits your team:
+- **Fullstack (Default)**: Best for new projects. Scaffolds React client + Node.js/Express server with unified types.
+- **API Mode**: Connect to your existing backend (Laravel, Django, Rails, etc.). Just provide your `baseURL`.
+- **Hybrid Mode**: For microservices. Most models use your primary backend, but specific models connect directly to external or legacy services using per-model `baseURL` overrides.
 
 ---
 
@@ -193,6 +209,14 @@ const { data } = useModel<User>('users', {
   params: { role: 'admin', page: 1 }
 })
 // Fetches from /api/users?role=admin&page=1
+```
+
+### Hybrid Mode (baseURL Override)
+You can point specific models to different backends while using the same global client.
+```tsx
+const { data } = useModel<Payment>('payments', {
+  baseURL: 'https://api.external-service.com/v1'
+})
 ```
 
 ### With React Suspense

@@ -35,6 +35,11 @@ export interface UseModelOptions {
    * @example params: { page: 1, role: 'admin', search: 'rahul' }
    */
   params?: Record<string, string | number | boolean | undefined>
+  /**
+   * Override the client's default baseURL for this specific model instance.
+   * Useful for Hybrid Mode (connecting to different backends).
+   */
+  baseURL?: string
 }
 
 export function useModel<T extends ModelRecord>(name: string, options?: UseModelOptions): UseModelReturn<T> {
@@ -71,7 +76,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
 
       let requestPromise = inFlightRequests.get(url)
       if (!requestPromise) {
-        requestPromise = client.request<ApiResponse<T[]>>(url)
+        requestPromise = client.request<ApiResponse<T[]>>(url, { baseURL: options?.baseURL })
           .then((res) => {
             const rows = Array.isArray(res) ? res : (res.data ?? [])
             cache.set(url, rows)
@@ -132,7 +137,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
     // Deduplicate simultaneous requests
     let requestPromise = inFlightRequests.get(url)
     if (!requestPromise) {
-      requestPromise = client.request<ApiResponse<T[]>>(url)
+      requestPromise = client.request<ApiResponse<T[]>>(url, { baseURL: options?.baseURL })
       inFlightRequests.set(url, requestPromise)
     }
 
@@ -186,6 +191,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
       await client.request(url, {
         method: 'POST',
         body: JSON.stringify(payload),
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)
@@ -210,6 +216,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
       await client.request(`${url}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(payload),
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)
@@ -232,6 +239,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
     try {
       await client.request(`${url}/${id}`, {
         method: 'DELETE',
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)

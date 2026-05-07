@@ -318,6 +318,7 @@
       <div class="sidebar-group">
         <div class="sidebar-group-label">Getting Started</div>
         <a href="#introduction" class="sidebar-link">Introduction</a>
+        <a href="#cli" class="sidebar-link">NeevJS CLI</a>
         <a href="#installation" class="sidebar-link">Installation</a>
         <a href="#quickstart" class="sidebar-link">Quick Start</a>
         <a href="#api-contract" class="sidebar-link">API Contract</a>
@@ -353,8 +354,8 @@
       </div>
       <div class="sidebar-group">
         <div class="sidebar-group-label">Backend</div>
+        <a href="#modes" class="sidebar-link">Project Modes</a>
         <a href="#server" class="sidebar-link">@neevjs/server</a>
-        <a href="#modes" class="sidebar-link">Usage Modes</a>
       </div>
 
     </aside>
@@ -364,7 +365,8 @@
       <h1 class="gradient-text">NeevJS Documentation</h1>
       <p style="font-size:16px; color:#6b7280;">
         Plugin-driven, offline-first React framework for real-world business applications.
-        <br /><strong style="color:#9ca3af;"><!-- NEEV_VERSION -->Version 0.1.0-beta<!-- /NEEV_VERSION --></strong> &nbsp;·&nbsp; Built by Rahul Raj Kushwaha
+        <br /><strong style="color:#9ca3af;"><!-- NEEV_VERSION -->Version 0.1.0-beta<!-- /NEEV_VERSION --></strong>
+        &nbsp;·&nbsp; Built by Rahul Raj Kushwaha
       </p>
 
       <!-- Introduction -->
@@ -381,6 +383,12 @@
         💡 <strong>NeevJS is NOT a Next.js replacement.</strong> It's a framework for CRUD-heavy business apps — not
         landing pages, not blogs.
       </div>
+
+      <!-- CLI -->
+      <h2 id="cli">NeevJS CLI</h2>
+      <p>The fastest way to start a new NeevJS project is with the interactive CLI.</p>
+      <pre><code>npx @neevjs/cli init my-app</code></pre>
+      <p>The CLI will guide you through selecting a <strong>Project Mode</strong> and setting up your environment.</p>
 
       <!-- Installation -->
       <h2 id="installation">Installation</h2>
@@ -523,7 +531,12 @@ const { data } = useModel&lt;YourType&gt;('users', {
 })
 
 // With React Suspense (eliminates loading checks)
-const { data } = useModel&lt;YourType&gt;('model-name', { suspense: true })</code></pre>
+const { data } = useModel&lt;YourType&gt;('model-name', { suspense: true })
+
+// Hybrid Mode (override backend for this model)
+const { data } = useModel&lt;YourType&gt;('payments', { 
+  baseURL: 'https://api.payments-service.com/api' 
+})</code></pre>
 
       <h3>With TypeScript generics</h3>
       <pre><code>interface Order {
@@ -1653,30 +1666,38 @@ app.use('/api/invoices', createModelRouter('invoices', true))</code></pre>
   { id: 1, customer: 'Rahul', amount: 5000, status: 'pending' },
 ])</code></pre>
 
-      <!-- Modes -->
-      <h2 id="modes">Usage Modes</h2>
+      <!-- Project Modes -->
+      <h2 id="modes">Project Modes</h2>
+      <p>NeevJS is designed to adapt to your architecture. Choose the mode that fits your team.</p>
 
-      <h3>Mode 1 — Fullstack (default)</h3>
-      <p>Use <code>@neevjs/server</code> as your backend. Zero config, works out of the box.</p>
-      <pre><code>const client = createClient({ baseURL: '/api' })</code></pre>
+      <h3>1. Fullstack Mode (Default)</h3>
+      <p>The best developer experience. Uses <code>@neevjs/server</code> (Node.js/Express) as the backend. Everything is
+        pre-configured with shared types and unified validation.</p>
 
-      <h3>Mode 2 — API Mode</h3>
-      <p>Connect NeevJS client to your existing backend (Laravel, Django, Rails, etc.). As long as it follows the API
-        contract, it works.</p>
-      <pre><code>const client = createClient({
-  baseURL: 'https://api.yourcompany.com/api'
+      <h3>2. API Mode</h3>
+      <p>Use NeevJS as a powerful client for your existing backend. Whether you use Laravel, Django, Rails, or a custom
+        Go API, NeevJS works as long as you follow the <a href="#api-contract">API Contract</a>.</p>
+      <pre><code>const client = createClient({ 
+  baseURL: 'https://api.your-company.com/v1' 
 })</code></pre>
 
-      <h3>Mode 3 — Hybrid Mode</h3>
-      <p>Mix internal and external backends per model.</p>
-      <pre><code>// Not yet in v0.0.1 — planned for v0.2.0
-// useModel('orders')               // internal
-// useModel('payments', { baseURL }) // external</code></pre>
+      <h3>3. Hybrid Mode</h3>
+      <p>The most flexible approach for microservices or legacy migration. Most models use your primary backend, but
+        specific models connect directly to external or legacy services.</p>
+      <pre><code>// core/neev.ts
+const client = createClient({ baseURL: '/api' }) // Primary
+
+// features/payments/PaymentsPage.tsx
+const { data } = useModel('payments', { 
+  baseURL: 'https://api.external-processor.com/v1' // External
+})</code></pre>
 
 
 
       <footer>
-        <p>Built with ❤️ in 🇮🇳 by <strong>Rahul Raj Kushwaha</strong> (Rahul K Raj) &nbsp;·&nbsp; NeevJS v0.0.1</p>
+        <p>Built with ❤️ in 🇮🇳 by <strong>Rahul Raj Kushwaha</strong> (Rahul K Raj) &nbsp;·&nbsp;
+          NeevJS <!-- NEEV_VERSION -->v0.1.0-beta<!-- /NEEV_VERSION -->
+        </p>
       </footer>
 
 </body>
