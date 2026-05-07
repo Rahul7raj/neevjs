@@ -4,7 +4,7 @@
   <a href="https://github.com/Rahul7raj/neevjs"><strong>GitHub</strong></a> &nbsp;|&nbsp;
   <a href="https://Rahul7raj.github.io/neevjs"><strong>Documentation</strong></a>
   <br />
-  <code style="font-size: 12px; color: #7E38FF;">v1.0.0-beta/code>
+  <code style="font-size: 12px; color: #7E38FF;">v1.0.1-beta/code>
 </div>
 
 <br />
