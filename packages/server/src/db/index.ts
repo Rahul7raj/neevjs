@@ -61,8 +61,10 @@ export const db = new InMemoryDB()
 
 // Seed default tables
 db.seed('users', [
-  { id: 1, name: 'Rahul Kushwaha', email: 'rahul@example.com', role: 'admin' },
-  { id: 2, name: 'Priya Sharma', email: 'priya@example.com', role: 'user' },
+  { id: 1, name: 'Rahul Kushwaha', email: 'rahul@neevjs.com', role: 'admin' },
+  { id: 2, name: 'Priya Chauhan', email: 'priya@neevjs.com', role: 'user' },
+  { id: 2, name: 'Vraj Brahmbhatt', email: 'vraj@neevjs.com', role: 'user' },
+  { id: 2, name: 'Manthan Sirsikar', email: 'manthan@neevjs.com', role: 'user' },
 ])
 
 db.seed('auth_users', [

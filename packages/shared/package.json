@@ -1,6 +1,6 @@
 {
   "name": "@neevjs/shared",
-  "version": "0.1.0-beta",
+  "version": "1.0.0-beta",
   "description": "Shared types and utilities for NeevJS",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

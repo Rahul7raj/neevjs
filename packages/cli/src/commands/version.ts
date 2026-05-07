@@ -1,5 +1,5 @@
 import chalk from 'chalk';
 
 export function showVersion() {
-  console.log(`NeevJS CLI ${chalk.cyan('v0.1.0-beta')}`);
+  console.log(`NeevJS CLI ${chalk.cyan('v1.0.0-beta')}`);
 }

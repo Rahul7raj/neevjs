@@ -356,10 +356,374 @@
         padding: 80px 20px 48px;
       }
     }
+
+    /* Feature Tabs */
+    .feature-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 56px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .feature-tab {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #9ca3af;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .feature-tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e5e7eb;
+    }
+
+    .feature-tab.active {
+      background: rgba(126, 56, 255, 0.15);
+      border-color: rgba(126, 56, 255, 0.4);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(126, 56, 255, 0.2);
+    }
+
+    .feature-slide {
+      display: none;
+      animation: fadeInSlide 0.4s ease-out forwards;
+    }
+
+    .feature-slide.active {
+      display: block;
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .code-preview.slide-pane {
+      margin-top: 0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .anim-h1-1 {
+      display: inline-block;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .anim-h1-2 {
+      display: inline-block;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.3s forwards;
+    }
+
+    /* 2-Pane Demo Animations */
+    .demo-container {
+      display: flex;
+      gap: 24px;
+      max-width: 1000px;
+      margin: 56px auto 0;
+      align-items: stretch;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .demo-container {
+        flex-direction: column;
+      }
+    }
+
+    .demo-pane {
+      flex: 1;
+      background: #0A0A14;
+      border: 1px solid rgba(126, 56, 255, 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .demo-header {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+      font-family: 'Fira Code', monospace;
+      color: #a5b4fc;
+      display: flex;
+      align-items: center;
+    }
+
+    .demo-header .dots {
+      display: flex;
+      gap: 6px;
+      margin-right: 12px;
+    }
+
+    .demo-header .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .demo-header .dot.r {
+      background: #ef4444;
+    }
+
+    .demo-header .dot.y {
+      background: #fbbf24;
+    }
+
+    .demo-header .dot.g {
+      background: #10b981;
+    }
+
+    .demo-body {
+      padding: 24px;
+      font-family: 'Fira Code', monospace;
+      font-size: 14px;
+      line-height: 1.8;
+      position: relative;
+      height: 260px;
+    }
+
+    .typing-line {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      width: 0;
+      vertical-align: bottom;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+
+    .type-1 {
+      animation: type1 10s infinite;
+      border-right: 2px solid transparent;
+    }
+
+    .type-2 {
+      animation: type2 10s infinite;
+      border-right: 2px solid transparent;
+    }
+
+    @keyframes type1 {
+
+      0%,
+      10% {
+        width: 0;
+        border-color: #00E5FF;
+      }
+
+      12%,
+      18% {
+        border-color: transparent;
+      }
+
+      15%,
+      20% {
+        border-color: #00E5FF;
+      }
+
+      25%,
+      95% {
+        width: 100%;
+        border-color: transparent;
+      }
+
+      96%,
+      100% {
+        width: 0;
+        border-color: transparent;
+      }
+    }
+
+    @keyframes type2 {
+
+      0%,
+      25% {
+        width: 0;
+        border-color: transparent;
+      }
+
+      26%,
+      30% {
+        width: 0;
+        border-color: #00E5FF;
+      }
+
+      32%,
+      36% {
+        border-color: transparent;
+      }
+
+      34%,
+      38% {
+        border-color: #00E5FF;
+      }
+
+      45%,
+      95% {
+        width: 100%;
+        border-color: transparent;
+      }
+
+      96%,
+      100% {
+        width: 0;
+        border-color: transparent;
+      }
+    }
+
+    .loader-container {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      animation: loaderCycle 10s infinite;
+    }
+
+    .ui-skeleton {
+      width: 100%;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      animation: pulse 1s infinite;
+    }
+
+    .ui-table {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      width: calc(100% - 48px);
+      border-collapse: collapse;
+      animation: tableCycle 10s infinite;
+      background: rgba(255, 255, 255, 0.01);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .ui-table th {
+      text-align: left;
+      padding: 14px 16px;
+      color: #a5b4fc;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid rgba(126, 56, 255, 0.2);
+      background: rgba(126, 56, 255, 0.05);
+    }
+
+    .ui-table td {
+      padding: 14px 16px;
+      font-size: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e5e7eb;
+      transition: background 0.2s;
+    }
+
+    .ui-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .ui-badge {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    @keyframes loaderCycle {
+
+      0%,
+      42% {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      45%,
+      95% {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      96%,
+      100% {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    @keyframes tableCycle {
+
+      0%,
+      45% {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+      }
+
+      50%,
+      95% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      96%,
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <!-- 3D Background Container -->
+  <div id="vanta-bg" style="position: fixed; z-index: -1; top: 0; left: 0; width: 100%; height: 100%;"></div>
+
 
   <nav>
     <a href="./index.html" class="nav-logo">
@@ -368,38 +732,150 @@
     </a>
     <div class="nav-links">
       <a href="./docs.html">Docs</a>
-      <a href="https://github.com/rahulkraj/neevjs" target="_blank">GitHub</a>
+      <a href="https://github.com/rahul7raj/neevjs" target="_blank">GitHub</a>
       <a href="https://npmjs.com/package/@neevjs/client" target="_blank">npm</a>
     </div>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
-    <div class="badge" id="neev-version-badge"><!-- NEEV_VERSION -->v0.1.0-beta<!-- /NEEV_VERSION --></div>
-    <h1>Build business apps,<br /><span class="gradient-text">not frontend chaos.</span></h1>
+    <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 24px;">
+      <div class="badge" id="neev-version-badge" style="margin-bottom: 0;">
+        <!-- NEEV_VERSION -->v1.0.0-beta<!-- /NEEV_VERSION -->
+      </div>
+      <div class="badge" style="margin-bottom: 0;">"नींव" = Foundation</div>
+    </div>
+    <h1>
+      <span class="anim-h1-1">Build business apps,</span><br />
+      <span class="anim-h1-2 gradient-text">not frontend chaos.</span>
+    </h1>
     <p class="subtitle">
-      NeevJS is a plugin-driven, offline-first React framework for CRMs, dashboards, and POS systems. No fetch. No
+      NeevJS is a plugin-driven, offline-first, open source React framework for CRMs, dashboards, CRUD heavy systems,
+      POS systems,
+      field apps and real-world business applications. No fetch. No
       axios. Just <code>useModel()</code>.
     </p>
     <div class="cta-group">
       <a href="./docs.html" class="btn btn-primary">Get Started →</a>
-      <a href="https://github.com/rahulkraj/neevjs" class="btn btn-outline">View on GitHub</a>
+      <a href="https://github.com/rahul7raj/neevjs" class="btn btn-outline">View on GitHub</a>
     </div>
 
-    <div class="code-preview">
-      <div class="comment">// No fetch. No axios. No config.</div>
-      <br />
-      <span class="keyword">const</span> users = <span class="fn">useModel</span>(<span
-        class="str">'users'</span>)<br /><br />
-      users.<span class="fn">remove</span>(id)<br /><br />
-      <span class="keyword">const</span> [theme] = <span class="fn">useStore</span>(<span class="str">'theme'</span>,
-      <span class="str">'dark'</span>, { persist: <span class="keyword">true</span> })<br /><br />
-      <span class="comment">// That's it. Data. State. CRUD. Done.</span>
+    <div class="feature-slider">
+      <div class="feature-tabs">
+        <button class="feature-tab active" onclick="switchSlide(1)">Data Fetching</button>
+        <button class="feature-tab" onclick="switchSlide(2)">Global State</button>
+        <button class="feature-tab" onclick="switchSlide(3)">Offline Engine</button>
+      </div>
+
+      <div class="code-preview feature-slide slide-pane active" id="slide-1">
+        <div class="comment">// No fetch. No axios. No config.</div>
+        <br />
+        <span class="keyword">const</span> { data, remove } = <span class="fn">useModel</span>(<span
+          class="str">'users'</span>)<br /><br />
+        <span class="fn">remove</span>(id)<br /><br />
+        <span class="comment">// That's it. Data. State. CRUD. Done.</span>
+      </div>
+
+      <div class="code-preview feature-slide slide-pane" id="slide-2">
+        <div class="comment">// Shared state without providers or boilerplate</div>
+        <br />
+        <span class="keyword">const</span> [theme, setTheme] = <span class="fn">useStore</span>(<span
+          class="str">'theme'</span>, <span class="str">'dark'</span>, { persist: <span class="keyword">true</span>
+        })<br /><br />
+        <span class="fn">setTheme</span>(<span class="str">'light'</span>)<br /><br />
+        <span class="comment">// Re-renders only components using 'theme'</span>
+      </div>
+
+      <div class="code-preview feature-slide slide-pane" id="slide-3">
+        <div class="comment">// 1. You lose connection</div>
+        <span class="keyword">const</span> { isOffline, pendingSyncs } = <span class="fn">useSyncStatus</span>()<br /><br />
+        
+        <div class="comment">// 2. You mutate data anyway (Optimistic UI)</div>
+        <span class="keyword">const</span> users = <span class="fn">useModel</span>(<span class="str">'users'</span>)<br />
+        users.<span class="fn">create</span>({ name: <span class="str">'Rahul'</span> }) <span class="comment">// UI updates instantly!</span><br /><br />
+        
+        <div class="comment">// 3. Actions are safely queued in localStorage</div>
+        <span class="fn">console.log</span>(pendingSyncs) <span class="comment">// Output: 1</span><br /><br />
+        
+        <div class="comment">// 4. On reconnect, NeevJS syncs automatically in the background</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section class="section" style="border-top: 1px solid #111;">
+    <div class="section-inner">
+      <div class="section-label" style="text-align: center;">How it works</div>
+      <h2 style="text-align: center; margin-bottom: 0;">From code to UI in one line.</h2>
+
+      <div class="demo-container">
+        <div class="demo-pane">
+          <div class="demo-header">
+            <div class="dots">
+              <div class="dot r"></div>
+              <div class="dot y"></div>
+              <div class="dot g"></div>
+            </div>
+            Dashboard.tsx
+          </div>
+          <div class="demo-body">
+            <span class="keyword">function</span> <span class="fn">Dashboard</span>() {<br />
+            &nbsp;&nbsp;<span class="typing-line type-1"><span class="keyword">const</span> { data } = <span
+                class="fn">useModel</span>(<span class="str">'users'</span>)</span><br /><br />
+            &nbsp;&nbsp;<span class="typing-line type-2"><span class="keyword">return</span> &lt;<span
+                class="tag">Table</span> <span class="keyword">model</span>=<span class="str">"users"</span>
+              /&gt;</span><br />
+            }
+          </div>
+        </div>
+        <div class="demo-pane">
+          <div class="demo-header">
+            <div class="dots" style="visibility: hidden;">
+              <div class="dot"></div>
+            </div>
+            App Output
+          </div>
+          <div class="demo-body">
+            <div class="loader-container">
+              <div class="ui-skeleton" style="width: 30%;"></div>
+              <div class="ui-skeleton"></div>
+              <div class="ui-skeleton"></div>
+              <div class="ui-skeleton"></div>
+            </div>
+            <table class="ui-table">
+              <thead>
+                <tr>
+                  <th>NAME</th>
+                  <th>ROLE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Rahul K Raj</td>
+                  <td>Admin</td>
+                  <td><span class="ui-badge">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Ranjan Kushwaha</td>
+                  <td>User</td>
+                  <td><span class="ui-badge">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Prabhakar Bhatt</td>
+                  <td>Editor</td>
+                  <td><span class="ui-badge">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- Features -->
-  <section class="section" style="border-top: 1px solid #111;">
+  <section class="section" style="background: #050505; border-top: 1px solid #111;">
     <div class="section-inner">
       <div class="section-label">Why NeevJS</div>
       <h2>Everything a business app needs.<br />Nothing it doesn't.</h2>
@@ -465,7 +941,7 @@
   </section>
 
   <!-- Project Modes -->
-  <section class="section" style="border-top: 1px solid #111;">
+  <section class="section" style="background: #050505; border-top: 1px solid #111;">
     <div class="section-inner">
       <div class="section-label">Project Modes</div>
       <h2>One framework.<br />Three ways to ship.</h2>
@@ -483,7 +959,8 @@
           <div class="feature-icon">🔌</div>
           <h3>API Mode</h3>
           <p>Connect NeevJS to any existing backend (Laravel, Django, Rails, etc.). Just provide your
-            <code>baseURL</code> and go.</p>
+            <code>baseURL</code> and go.
+          </p>
         </div>
         <div class="feature-card" style="border-top: 4px solid #f9a8d4;">
           <div class="feature-icon">🧬</div>
@@ -517,7 +994,7 @@
   </section>
 
   <!-- Comparison -->
-  <section class="section" style="border-top: 1px solid #111;">
+  <section class="section" style="background: #050505; border-top: 1px solid #111;">
     <div class="section-inner">
       <div class="section-label">Comparison</div>
       <h2>Built different.</h2>
@@ -616,6 +1093,43 @@
     </p>
   </footer>
 
+  <!-- 3D Animation Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.dots.min.js"></script>
+  <script>
+    VANTA.DOTS({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00,
+      color: 0x7E38FF,
+      color2: 0x2D46FF,
+      backgroundColor: 0x04040A,
+      size: 2.50,
+      spacing: 40.00
+    })
+
+    // Feature Slider Logic
+    function switchSlide(index) {
+      document.querySelectorAll('.feature-tab').forEach((tab, i) => {
+        tab.classList.toggle('active', i + 1 === index);
+      });
+      document.querySelectorAll('.feature-slide').forEach((slide, i) => {
+        if (i + 1 === index) {
+          slide.classList.add('active');
+          slide.style.animation = 'none';
+          slide.offsetHeight; /* trigger reflow */
+          slide.style.animation = 'fadeInSlide 0.4s ease-out forwards';
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>
