@@ -1,3 +1,6 @@
+// ─── Framework Metadata ───────────────────────────────────────────────────────
+export const VERSION = '0.1.0-beta'
+
 // ─── API Contract ────────────────────────────────────────────────────────────
 
 export interface ApiResponse<T = unknown> {
@@ -31,6 +34,7 @@ export interface RequestOptions {
   method?: string
   body?: string
   headers?: Record<string, string>
+  baseURL?: string
   [key: string]: unknown
 }
 
@@ -38,8 +42,8 @@ export interface NeevPlugin {
   name: string
   setup?: (client: NeevClientInterface) => void
   onRequest?: (req: NeevRequest) => NeevRequest | Promise<NeevRequest>
-  onResponse?: (res: Response) => Response | Promise<Response>
-  onError?: (err: Error) => void
+  onResponse?: (res: Response, req: NeevRequest) => Response | Promise<Response>
+  onError?: (err: Error, req?: NeevRequest) => void
 }
 
 // ─── Client ───────────────────────────────────────────────────────────────────

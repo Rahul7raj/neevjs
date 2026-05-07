@@ -26,11 +26,34 @@ const STALE_TIME = 60 * 1000 // 60 seconds
 
 export interface UseModelOptions {
   suspense?: boolean
+  /**
+   * Query parameters appended to the request URL.
+   * The full URL (including params) is used as the cache key, so
+   * useModel('users', { params: { page: 1 } }) and
+   * useModel('users', { params: { page: 2 } }) cache independently.
+   *
+   * @example params: { page: 1, role: 'admin', search: 'rahul' }
+   */
+  params?: Record<string, string | number | boolean | undefined>
+  /**
+   * Override the client's default baseURL for this specific model instance.
+   * Useful for Hybrid Mode (connecting to different backends).
+   */
+  baseURL?: string
 }
 
 export function useModel<T extends ModelRecord>(name: string, options?: UseModelOptions): UseModelReturn<T> {
   const client = useNeevClient()
-  const url = `/${name}`
+
+  // Build URL with optional query string
+  const baseUrl = `/${name}`
+  const url = options?.params
+    ? `${baseUrl}?${new URLSearchParams(
+        Object.entries(options.params)
+          .filter(([, v]) => v !== undefined)
+          .map(([k, v]) => [k, String(v)])
+      ).toString()}`
+    : baseUrl
 
   const [data, setData] = useState<T[]>(() => (cache.get(url) as T[]) ?? [])
   const [loading, setLoading] = useState<boolean>(!cache.has(url))
@@ -53,7 +76,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
 
       let requestPromise = inFlightRequests.get(url)
       if (!requestPromise) {
-        requestPromise = client.request<ApiResponse<T[]>>(url)
+        requestPromise = client.request<ApiResponse<T[]>>(url, { baseURL: options?.baseURL })
           .then((res) => {
             const rows = Array.isArray(res) ? res : (res.data ?? [])
             cache.set(url, rows)
@@ -114,7 +137,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
     // Deduplicate simultaneous requests
     let requestPromise = inFlightRequests.get(url)
     if (!requestPromise) {
-      requestPromise = client.request<ApiResponse<T[]>>(url)
+      requestPromise = client.request<ApiResponse<T[]>>(url, { baseURL: options?.baseURL })
       inFlightRequests.set(url, requestPromise)
     }
 
@@ -168,6 +191,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
       await client.request(url, {
         method: 'POST',
         body: JSON.stringify(payload),
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)
@@ -192,6 +216,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
       await client.request(`${url}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(payload),
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)
@@ -214,6 +239,7 @@ export function useModel<T extends ModelRecord>(name: string, options?: UseModel
     try {
       await client.request(`${url}/${id}`, {
         method: 'DELETE',
+        baseURL: options?.baseURL,
       })
       cache.delete(url)
       await fetchData(true)

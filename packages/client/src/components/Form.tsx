@@ -14,6 +14,7 @@ export interface FormField {
 export interface FormClassNames {
   root?: string
   error?: string
+  fieldError?: string
   label?: string
   input?: string
   select?: string
@@ -24,6 +25,7 @@ export interface FormClassNames {
 export interface FormStyles {
   root?: React.CSSProperties
   error?: React.CSSProperties
+  fieldError?: React.CSSProperties
   label?: React.CSSProperties
   input?: React.CSSProperties
   select?: React.CSSProperties
@@ -45,6 +47,18 @@ export interface FormProps<T extends ModelRecord> {
   transformPayload?: (payload: Partial<T>) => Partial<T> | Promise<Partial<T>>
   onSubmitOverride?: (payload: Partial<T>) => Promise<void>
   children?: React.ReactNode
+  /**
+   * Per-field validation errors. Keys are field names, values are error messages.
+   * Use this to display server-side validation errors next to the relevant field.
+   * @example fieldErrors={{ email: 'Email is already taken' }}
+   */
+  fieldErrors?: Record<string, string>
+  /**
+   * Client-side validation function. Called before submission.
+   * Return an object of field errors to block submission, or undefined/null to proceed.
+   * @example validate={(values) => values.password.length < 8 ? { password: 'Min 8 characters' } : undefined}
+   */
+  validate?: (values: Partial<T>) => Record<string, string> | undefined | null
 }
 
 export function Form<T extends ModelRecord>({
@@ -61,21 +75,39 @@ export function Form<T extends ModelRecord>({
   transformPayload,
   onSubmitOverride,
   children,
+  fieldErrors: externalFieldErrors = {},
+  validate,
 }: FormProps<T>): React.ReactElement {
   const { create, update } = useModel<T>(model)
   const [submitting, setSubmitting] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [internalFieldErrors, setInternalFieldErrors] = useState<Record<string, string>>({})
+
+  // Merge external (server) field errors with internal (client) field errors
+  const allFieldErrors = { ...internalFieldErrors, ...externalFieldErrors }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault()
     setSubmitting(true)
     setFormError(null)
+    setInternalFieldErrors({})
 
     const formData = new FormData(e.currentTarget)
     const payload = Object.fromEntries(formData.entries()) as Omit<T, 'id'>
 
     try {
       let finalPayload = payload as Partial<T>
+
+      // Run client-side validation if provided
+      if (validate) {
+        const validationErrors = validate(finalPayload)
+        if (validationErrors && Object.keys(validationErrors).length > 0) {
+          setInternalFieldErrors(validationErrors)
+          setSubmitting(false)
+          return
+        }
+      }
+
       if (transformPayload) {
         finalPayload = await transformPayload(finalPayload)
       }
@@ -180,6 +212,24 @@ export function Form<T extends ModelRecord>({
               className={classNames.input}
               style={{ ...baseInputStyle, ...styles.input }}
             />
+          )}
+
+          {/* Per-field validation error */}
+          {allFieldErrors[field.name] && (
+            <span
+              className={classNames.fieldError}
+              style={{
+                ...(!unstyled ? {
+                  display: 'block',
+                  marginTop: 4,
+                  fontSize: 12,
+                  color: '#dc2626',
+                } : {}),
+                ...styles.fieldError,
+              }}
+            >
+              {allFieldErrors[field.name]}
+            </span>
           )}
         </label>
       ))}

@@ -3,6 +3,8 @@
   <br /><br />
   <a href="https://github.com/Rahul7raj/neevjs"><strong>GitHub</strong></a> &nbsp;|&nbsp;
   <a href="https://Rahul7raj.github.io/neevjs"><strong>Documentation</strong></a>
+  <br />
+  <code style="font-size: 12px; color: #7E38FF;">v0.1.0-beta/code>
 </div>
 
 <br />
@@ -95,6 +97,22 @@ pnpm add @neevjs/client
 
 ---
 
+## 🛠️ NeevJS CLI
+
+Scaffold a new project in seconds with the interactive CLI.
+
+```bash
+npx @neevjs/cli init my-app
+```
+
+### Project Modes
+NeevJS adapts to your architecture. Choose the mode that fits your team:
+- **Fullstack (Default)**: Best for new projects. Scaffolds React client + Node.js/Express server with unified types.
+- **API Mode**: Connect to your existing backend (Laravel, Django, Rails, etc.). Just provide your `baseURL`.
+- **Hybrid Mode**: For microservices. Most models use your primary backend, but specific models connect directly to external or legacy services using per-model `baseURL` overrides.
+
+---
+
 ## Project Setup
 
 ### Step 1 — Configure the Client
@@ -181,17 +199,25 @@ function UserList() {
 }
 ```
 
-### Return Values
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `data` | `T[]` | The list of records fetched from the server |
-| `loading` | `boolean` | `true` while the first fetch is in progress |
-| `error` | `Error \| null` | Any error that occurred during fetching |
-| `create` | `(payload) => Promise<void>` | Creates a new record via `POST /model` |
-| `update` | `(id, payload) => Promise<void>` | Updates a record via `PUT /model/:id` |
-| `remove` | `(id) => Promise<void>` | Deletes a record via `DELETE /model/:id` |
 | `refresh` | `() => Promise<void>` | Forces a fresh fetch from the server |
+| `mutate` | `(data) => void` | Manually update local data (optimistic/external) |
+
+### Query Parameters
+Pass the `params` option to `useModel` to handle filtering, sorting, or pagination. Each unique combination of params maintains its own isolated cache.
+```tsx
+const { data } = useModel<User>('users', {
+  params: { role: 'admin', page: 1 }
+})
+// Fetches from /api/users?role=admin&page=1
+```
+
+### Hybrid Mode (baseURL Override)
+You can point specific models to different backends while using the same global client.
+```tsx
+const { data } = useModel<Payment>('payments', {
+  baseURL: 'https://api.external-service.com/v1'
+})
+```
 
 ### With React Suspense
 
@@ -319,6 +345,18 @@ import { User } from '../models/user'
 />
 ```
 
+**Field-level validation:**
+Provide a `validate` function to any field definition. If it returns a string, that string is shown as a per-field error message.
+```tsx
+fields={[
+  { 
+    name: 'email', 
+    label: 'Email', 
+    validate: (val) => !val.includes('@') ? 'Invalid email format' : null 
+  }
+]}
+```
+
 **Editing an existing record:**
 ```tsx
 <Form<User>
@@ -385,6 +423,7 @@ import { User } from '../models/user'
 | `classNames` | `FormClassNames` | Override CSS class names |
 | `styles` | `FormStyles` | Override inline styles |
 | `unstyled` | `boolean` | Strip all default styles |
+| `fieldErrors` | `Record<string, string>` | External/server-side field-level errors to display |
 
 ---
 
@@ -439,6 +478,8 @@ import { Protected } from '@neevjs/client'
 | `fallback` | `ReactNode` | Content to show if denied (default: "not authorized" message) |
 | `role` | `string` | Required role. Checks `user.role === role`. |
 
+> **Flash-Free Auth**: The `<Protected />` component performs a synchronous token check on mount. This eliminates the visual "empty content" flash commonly seen in other frameworks while waiting for the auth status to resolve.
+
 ---
 
 ## Authentication
@@ -482,8 +523,10 @@ function LoginForm() {
 | `login(email, password)` | Authenticates the user; stores JWT in `localStorage` |
 | `register(email, password, name?)` | Registers and logs in; stores JWT |
 | `logout()` | Removes the token from `localStorage` |
-| `user()` | Returns the current `AuthUser` object (fetches from `/auth/me` if needed) |
+| `user()` | Returns the current `AuthUser` object (cached in `sessionStorage`) |
 | `isAuthenticated()` | Returns `true` if a JWT token exists in storage |
+
+> **Performance:** `AuthClient` caches the user object in `sessionStorage`. On page refreshes, the user is restored instantly without hitting the `/auth/me` network endpoint.
 
 ### Required Backend Endpoints
 
@@ -543,6 +586,7 @@ client.use(createCachePlugin({ ttl: 5 * 60 * 1000 }))
 ```
 
 > **Note:** `useModel` has its own built-in 60-second stale-time cache. `CachePlugin` is an additional HTTP-level cache for other raw `client.request()` calls.
+> **Auto-Invalidation:** `CachePlugin` automatically clears the cache for a resource when it detects a mutation (POST/PUT/DELETE) on that same resource path.
 
 ### `OfflinePlugin`
 The most powerful plugin. Intercepts all mutation requests (`POST`, `PUT`, `DELETE`) when offline and queues them persistently in `localStorage`.
@@ -575,6 +619,30 @@ const MyAnalyticsPlugin: NeevPlugin = {
 
 client.use(MyAnalyticsPlugin)
 ```
+
+### Global Store (`useStore`)
+NeevJS includes a powerful, reactive global state manager that can replace Redux or Zustand for 90% of use cases. It supports persistence, session-only storage, and TTL (Time-to-Live).
+
+```tsx
+import { useStore } from '@neevjs/client'
+
+function ThemeSwitcher() {
+  // Persistence (localStorage), Session-only, or TTL
+  const [theme, setTheme] = useStore('theme', 'light', { 
+    persist: true,     // Saves to localStorage
+    ttl: 3600 * 1000   // Expires in 1 hour
+  })
+
+  return <button onClick={() => setTheme('dark')}>Set Dark</button>
+}
+```
+
+| Tier | Option | Storage | Lifetime |
+|---|---|---|---|
+| **In-Memory** | Default | React Context | Lost on reload |
+| **Persist** | `persist: true` | `localStorage` | Indefinite |
+| **Session** | `session: true` | `sessionStorage` | Tab lifetime |
+| **TTL** | `ttl: number` | `localStorage` | Auto-expires after ms |
 
 ---
 
@@ -641,7 +709,7 @@ function SyncIndicator() {
 |---|---|---|
 | `isOffline` | `boolean` | `true` when `navigator.onLine` is `false` |
 | `pending` | `number` | Number of actions waiting in the queue |
-| `syncing` | `boolean` | `true` for ~2 seconds after connection is restored |
+| `syncing` | `boolean` | `true` while background sync is in progress |
 | `errors` | `Error[]` | Permanent failures (e.g., server returned 4xx) |
 | `clearErrors` | `() => void` | Clears the error list |
 

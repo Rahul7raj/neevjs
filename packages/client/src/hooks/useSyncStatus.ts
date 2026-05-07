@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { SyncStatus } from '@neevjs/shared'
 
-// Shared pending count — updated by OfflinePlugin
+// Shared sync state — updated directly by OfflinePlugin
+// Fix 4: `syncing` is now driven by OfflinePlugin.processQueue() start/end,
+// not by a hardcoded 2-second timeout.
 export const syncState = {
   pendingCount: 0,
+  syncing: false,
   errors: [] as Error[],
   listeners: new Set<() => void>(),
   notify() {
@@ -14,20 +17,21 @@ export const syncState = {
 export function useSyncStatus(): SyncStatus {
   const [isOffline, setIsOffline] = useState<boolean>(!navigator.onLine)
   const [pending, setPending] = useState<number>(syncState.pendingCount)
-  const [syncing, setSyncing] = useState<boolean>(false)
+  const [syncing, setSyncing] = useState<boolean>(syncState.syncing)
   const [errors, setErrors] = useState<Error[]>(syncState.errors)
 
   useEffect(() => {
     function onOnline() {
       setIsOffline(false)
-      setSyncing(true)
-      setTimeout(() => setSyncing(false), 2000)
+      // Note: syncing will be set to true by OfflinePlugin.processQueue()
+      // via syncState.notify() — we no longer use a hardcoded timeout here.
     }
     function onOffline() {
       setIsOffline(true)
     }
     function onSyncUpdate() {
       setPending(syncState.pendingCount)
+      setSyncing(syncState.syncing)
       setErrors([...syncState.errors])
     }
 
