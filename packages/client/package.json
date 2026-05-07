@@ -1,6 +1,6 @@
 {
   "name": "@neevjs/client",
-  "version": "1.0.0-beta",
+  "version": "1.0.1-beta",
   "description": "NeevJS core React framework — plugin-driven, offline-first, built for business apps",
   "keywords": [
     "react",
@@ -11,12 +11,16 @@
     "plugin",
     "neevjs"
   ],
-  "author": "Rahul Raj Kushwaha <rahulkraj.dev@gmail.com>",
+  "author": "Rahul Raj Kushwaha <rahul7aj@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rahulkraj/neevjs"
+    "url": "git+https://github.com/rahul7raj/neevjs.git"
   },
+  "bugs": {
+    "url": "https://github.com/rahul7raj/neevjs/issues"
+  },
+  "homepage": "https://rahul7raj.github.io/neevjs",
   "source": "src/index.ts",
   "main": "dist/index.cjs",
   "module": "dist/index.js",

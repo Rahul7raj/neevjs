@@ -1,8 +1,16 @@
 {
   "name": "@neevjs/cli",
-  "version": "1.0.0-beta",
+  "version": "1.0.1-beta",
   "description": "NeevJS CLI — project scaffolding and development tools",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahul7raj/neevjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rahul7raj/neevjs/issues"
+  },
+  "homepage": "https://rahul7raj.github.io/neevjs",
   "bin": {
     "neev": "./dist/index.js"
   },
